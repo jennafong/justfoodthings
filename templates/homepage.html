@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Let's Find Good Food{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-7">
+      <div id="welcome">
+        <h2>"Where do you want to eat?"</h2>
+        <h5>"Do you have a preference???? *aggressive peer pressure*"</h5>
+        <p>"I want to eat where you want to eat."</p>
+        
+      </div>
+
+      <div id="querying">
+        <h2>Querying the Yelp API</h2>
+        <p>
+          <form method="GET" action='/search-businesses'>
+            <p>
+              <label>What do you feel like (enter a cuisine or type of food):</label>
+              <input type="text" name="general-search">
+            </p>
+            
+            <p>
+              <label>Where are you located?</label>
+              <input type="text" name="zipcode">
+              OR
+              <label>Zip Code:</label>
+              <input type="text" name="address">
+            </p>  
+            <input type="submit">
+
+          </form>
+        </p>
+      </div>  
+    </div>
+
+  </div>
+</div>
+{% endblock %}

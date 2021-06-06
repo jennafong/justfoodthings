@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/static/css/party.css">
+  <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous">
+  </script>
+</head>
+<body>
+  <div class="container-fluid d-flex header">
+    <h1>
+      <a href="/">Let's Find Good Food</a>
+    </h1>
+
+    {% for msg in get_flashed_messages() %}
+      <div class="alert alert-info">{{ msg }}</div>
+    {% endfor %}
+  </div>
+
+  {% block content %}{% endblock %}
+</body>
+</html>
