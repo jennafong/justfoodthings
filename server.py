@@ -34,7 +34,7 @@ def search_businesses():
 
     PARAMETERS = {'term':search_param,
                   'limit': 50,
-                  'radius': 5000,
+                  'radius': 500,
                   'location': address or zip_code}
 
     response = requests.get(url = endpoint_url, params = PARAMETERS, headers = payload)
