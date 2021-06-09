@@ -4,7 +4,7 @@ from pprint import pformat
 import os
 import requests
 import json
-import secrets
+import my_secrets
 
 
 app = Flask(__name__)
@@ -27,18 +27,21 @@ def homepage():
 def search_businesses():
     """Grab a category and location from form and return yelp results."""
     search_param = request.args.get("general-search")
-    zip_code = request.args.get("zipcode")
     address = request.args.get("address")
+    radius = request.args.get("mile_radius")
+    
+    #yelp uses meters, so i'm converting my miles roughly to meters
+    radius = int(radius) * 1609
 
     endpoint_url ='https://api.yelp.com/v3/businesses/search'
-    payload = {f'Authorization': 'bearer {API_KEY}'}
+    payload = {'Authorization': f'bearer {API_KEY}'}
 
-    PARAMETERS = {'term':search_param,
+    parameters = {'term':search_param,
                   'limit': 50,
-                  'radius': 500,
-                  'location': address or zip_code}
+                  'radius': radius,
+                  'location': address}
 
-    response = requests.get(url = endpoint_url, params = PARAMETERS, headers = payload)
+    response = requests.get(url = endpoint_url, params = parameters, headers = payload)
     
     the_info = response.json()
 

@@ -16,19 +16,24 @@
       <div id="querying">
         <h2>Querying the Yelp API</h2>
         <p>
-          <form method="GET" action='/search-businesses'>
+          <form method="GET" action='/api/search-businesses'>
             <p>
               <label>What do you feel like (enter a cuisine or type of food):</label>
               <input type="text" name="general-search">
             </p>
-            
             <p>
-              <label>Where are you located?</label>
+              <label>What is your address?</label>
               <input type="text" name="address">
-              OR
-              <label>Zip Code:</label>
-              <input type="text" name="zipcode">
             </p>  
+            <p>
+              How far will you go for noms?
+              <select name="mile_radius">
+                <option value="1">1 mile</option>
+                <option value="5">5 miles</option>
+                <option value="10">10 miles</option>
+                <option value="15">15 miles</option>
+                <option value="20">20 miles</option>
+            </p>
             <input type="submit">
 
           </form>
