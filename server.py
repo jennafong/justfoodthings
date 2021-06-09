@@ -4,6 +4,7 @@ from pprint import pformat
 import os
 import requests
 import json
+import secrets
 
 
 app = Flask(__name__)
@@ -22,7 +23,7 @@ def homepage():
 
     return render_template('homepage.html')
 
-@app.route('/search-businesses')
+@app.route('/api/search-businesses')
 def search_businesses():
     """Grab a category and location from form and return yelp results."""
     search_param = request.args.get("general-search")
@@ -30,7 +31,7 @@ def search_businesses():
     address = request.args.get("address")
 
     endpoint_url ='https://api.yelp.com/v3/businesses/search'
-    payload = {'Authorization': 'bearer %s' % API_KEY}
+    payload = {f'Authorization': 'bearer {API_KEY}'}
 
     PARAMETERS = {'term':search_param,
                   'limit': 50,
