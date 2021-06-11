@@ -4,43 +4,52 @@
 
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-7">
-      <div id="welcome">
+    
+    <div id="welcome">
         <h2>"Where do you want to eat?"</h2>
-        <h5>"Do you have a preference????"" *aggressive peer pressure*</h5>
-        <p>"I want to eat where you want to eat."</p>
-        
-      </div>
-
-      <div id="querying">
-        <h2>Querying the Yelp API</h2>
-        <p>
-          <form method="GET" action='/api/search-businesses'>
-            <p>
-              <label>What do you feel like (enter a cuisine or type of food):</label>
-              <input type="text" name="general-search">
-            </p>
-            <p>
-              <label>What is your address?</label>
-              <input type="text" name="address">
-            </p>  
-            <p>
-              How far will you go for noms?
-              <select name="mile_radius">
-                <option value="1">1 mile</option>
-                <option value="5">5 miles</option>
-                <option value="10">10 miles</option>
-                <option value="15">15 miles</option>
-                <option value="20">20 miles</option>
-            </p>
-            <input type="submit">
-
-          </form>
-        </p>
-      </div>  
+        <h5>"Do you have a preference????" *aggressive peer pressure*</h5>
+        <h7>I want to eat where you want to eat."</h7>
+    
     </div>
 
-  </div>
+    <div id="querying">
+        <h2>Let's find a place to eat together. No pressure. :)</h2>
+        <p>
+            <form method="POST" action='/api/search-businesses'>
+        
+            <div id="location">
+                <p>
+                    <label>What is your address or cross street?</label> <input type="text" name="address">
+                </p>
+                <p>  
+                    <label>Your city?</label> <input type="text" name="city">
+                </p>
+                <p>
+                    <label>Your state?</label> <input type="text" name="state">
+                </p>
+            </div>  
+        <p>
+            How far will you go for noms?
+            <select name="mile_radius">
+            <option value="1">1 mile</option>
+            <option value="5">5 miles</option>
+            <option value="10">10 miles</option>
+            <option value="15">15 miles</option>
+            <option value="20">20 miles</option>
+            </select>
+        </p>
+        <p>
+            <button type="submit" name="submit_button" value="nearby">Search Nearby</button>
+        </p>
+        <p>
+            <button type="submit" name="submit_button" value="random">Show Me A Random Place!</button> 
+            <button type="submit" name="submit_button" value="ideas">Show Me Ideas!</button>
+        </p>    
+        </form>
+    </p>
+    </div>  
+    
+
+  
 </div>
 {% endblock %}

@@ -23,12 +23,14 @@ def homepage():
 
     return render_template('homepage.html')
 
-@app.route('/api/search-businesses')
+@app.route('/api/search-businesses', methods=['POST'])
 def search_businesses():
     """Grab a category and location from form and return yelp results."""
-    search_param = request.args.get("general-search")
-    address = request.args.get("address")
-    radius = request.args.get("mile_radius")
+    
+    address = request.form.get("address")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    radius = request.form.get("mile_radius")
     
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
@@ -36,17 +38,22 @@ def search_businesses():
     endpoint_url ='https://api.yelp.com/v3/businesses/search'
     payload = {'Authorization': f'bearer {API_KEY}'}
 
-    parameters = {'term':search_param,
-                  'limit': 50,
+    parameters = {'term':'restaurants',
+                  'limit': 5,
                   'radius': radius,
-                  'location': address}
+                  'location': f"{address}, {city}, {state}"}
 
     response = requests.get(url = endpoint_url, params = parameters, headers = payload)
     
-    the_info = response.json()
+    business_data = response.json()
 
-    return the_info
-
+    if request.form['submit_button'] == 'nearby':  
+        return render_template('nearby.html',
+                               business_data = business_data)
+    elif request.form['submit_button'] == 'random':
+        return business_data
+    elif request.form['submit_button'] == 'ideas':
+        pass
 
 if __name__ == '__main__':
     app.debug = True
