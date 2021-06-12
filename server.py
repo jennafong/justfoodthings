@@ -25,7 +25,7 @@ def homepage():
 
 @app.route('/api/search-businesses', methods=['POST'])
 def search_businesses():
-    """Grab a category and location from form and return yelp results."""
+    """Grab a location and radius from form and return yelp results."""
     
     address = request.form.get("address")
     city = request.form.get("city")
@@ -39,21 +39,38 @@ def search_businesses():
     payload = {'Authorization': f'bearer {API_KEY}'}
 
     parameters = {'term':'restaurants',
-                  'limit': 5,
+                  'limit': 10,
                   'radius': radius,
                   'location': f"{address}, {city}, {state}"}
 
     response = requests.get(url = endpoint_url, params = parameters, headers = payload)
     
     business_data = response.json()
+    my_data = business_data['businesses']
 
     if request.form['submit_button'] == 'nearby':  
         return render_template('nearby.html',
-                               business_data = business_data)
+                               my_data = my_data)
     elif request.form['submit_button'] == 'random':
         return business_data
     elif request.form['submit_button'] == 'ideas':
         pass
+
+@app.route('/details/<id>')
+def show_details(id):    
+    """Shows more details about a singular restaurant."""
+    #return render_template(f"/location/{id}.html")
+    endpoint_url = "https://api.yelp.com/v3/businesses/id"
+    payload = {'Authorization': f'bearer {API_KEY}'}
+
+    response = requests.get(url = endpoint_url, headers = payload)
+
+    detail_data = response.json()
+
+
+    return detail_data
+
+
 
 if __name__ == '__main__':
     app.debug = True
