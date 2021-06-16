@@ -59,16 +59,17 @@ def search_businesses():
 @app.route('/details/<id>')
 def show_details(id):    
     """Shows more details about a singular restaurant."""
+
     #return render_template(f"/location/{id}.html")
-    endpoint_url = "https://api.yelp.com/v3/businesses/id"
+    endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
     payload = {'Authorization': f'bearer {API_KEY}'}
 
     response = requests.get(url = endpoint_url, headers = payload)
 
     detail_data = response.json()
 
-
-    return detail_data
+    return render_template('details.html',
+                           data = detail_data)
 
 
 

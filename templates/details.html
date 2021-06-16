@@ -3,5 +3,41 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block content %}
+<div id='restaurant_details'>
+    <h2>{{ data['name'] }}</h2>
+    <p>
+        <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
+                            {{ category['title']}} |
+                          {% endfor %}  
+    </p>
+    <p>
+        <b>Price:</b> {{ data['price']}}
+    </p>
+    <p>
+        <b>Phone:</b> {{ data['display_phone']}}
+    </p>    
+    <p>
+        <b>Address:</b> {% for line in data['location']['display_address'] %}
+                          {{ line }}
+                        {% endfor %}   
+    </p>                
+    <p>
+        <b>Hours:</b>  
+            <p>
+                Currently {% if data['hours'][0].is_open_now %} Open 
+                {% else %} Closed {% endif %}
+            </p>    
+            <p>              
+                {% for hour_info in data['hours'][0].open %}    
+                    <p> {{ hour_info }}</p>
+                {% endfor %}
+            </p>    
+    </p>
 
+    <p><b>Some Photos:</b></p>
+    {% for photo_url in data['photos'] %}
+      <img src="{{ photo_url }}">
+    {% endfor %}  
+    
+</div>
 {% endblock %}
