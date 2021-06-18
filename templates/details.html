@@ -24,12 +24,15 @@
     <p>
         <b>Hours:</b>  
             <p>
-                Currently {% if data['hours'][0].is_open_now %} Open 
-                {% else %} Closed {% endif %}
-            </p>    
+                Currently {% if data['hours'][0].is_open_now %} Open! 
+                {% else %} Closed :( {% endif %}
+            </p>
+            <p>              
+                {{ day_determiner(data['hours'][0].open) }}   
+            </p>     
             <p>              
                 {% for hour_info in data['hours'][0].open %}    
-                    <p> {{ hour_info }}</p>
+                    <p> {{ hour_info }} </p>
                 {% endfor %}
             </p>    
     </p>
