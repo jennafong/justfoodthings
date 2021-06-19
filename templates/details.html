@@ -28,13 +28,15 @@
                 {% else %} Closed :( {% endif %}
             </p>
             <p>              
-                {{ day_determiner(data['hours'][0].open) }}   
+                {{ day_determiner(data['hours'][0].open) }}  
+                {{ data['hours'][0].open }} 
             </p>     
             <p>              
                 {% for hour_info in data['hours'][0].open %}    
-                    <p> {{ hour_info }} </p>
+                    <p> {{ business_hours(hour_info) }} </p>
                 {% endfor %}
-            </p>    
+            </p> 
+   
     </p>
 
     <p><b>Some Photos:</b></p>

@@ -17,10 +17,11 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 API_KEY = os.environ['YELP_KEY']
 
+
 def military_to_standard(num):
     """Converts a number from miliary time (0000) to standard time 12:00 AM"""
-    biz_hours = num[0:2]
-    biz_minutes = num[2:4]
+    biz_hours = int(num[0:2])
+    biz_minutes = int(num[2:4])
 
     if biz_hours <= 12:
         return f"{biz_hours}:{biz_minutes} AM"
@@ -28,22 +29,26 @@ def military_to_standard(num):
     else: 
         the_pms = biz_hours - 12
         return f"{the_pms}:{biz_minutes} PM"
-
-def business_hours(yelp_hours_dict):
-    """Takes in the yelp data for business hours,
-    {'is_overnight': False, 'start': '1700', 'end': '2100', 'day': 2},
-    and returns either '24 hours', standard/normal 
-    time, or 'Closed' for any given day."""
-
-    if yelp_hours_dict['is_overnight'] == True:
-        return 'Open 24 Hours'
-    
-    elif yelp_hours_dict['is_overnight'] == False:
-        return f"{military_to_standard(yelp_hours_dict['start'])} - {military_to_standard(yelp_hours_dict['end'])}"
-
-    else:
-        return 'Closed'
         
+   
+
+
+@app.context_processor
+def time_formatter():
+    def business_hours(yelp_hours_dict):
+        """Takes in the yelp data for business hours,
+        {'is_overnight': False, 'start': '1700', 'end': '2100', 'day': 2},
+        and returns either '24 hours', standard/normal 
+        time, or 'Closed' for any given day."""
+
+        if yelp_hours_dict['is_overnight'] == True:
+            return 'Open 24 Hours'
+        
+        elif yelp_hours_dict['is_overnight'] == False:
+            return f"{military_to_standard(yelp_hours_dict['start'])} - {military_to_standard(yelp_hours_dict['end'])}"
+
+    return dict(business_hours = business_hours)
+
 @app.context_processor
 def format_biz_hours():
     def day_determiner(yelp_hours_list):
@@ -55,13 +60,21 @@ def format_biz_hours():
         days_abbr = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         count = 0
 
-        while count <= 7:
+        while count >= 6:
+            #get a list of dictionaries
+            #loop through. print the day name. if the item we are looking at is not for the right day, print closed
+            # if the item we are looking at IS for the right day print the time using the biz hour conversion function
+            #
+
+
             for dict in yelp_hours_list:
                 if dict.get('day', count) is count:
-                    print(f'{days[count]}: {business_hours(dict)}')
+                    return f'{days[count]}: {business_hours(dict)}'
                 else:
-                    print(f'{days[count]}: {business_hours(dict)}')
+                    return f'{days[count]}: Closed'
                 count += 1
+
+    return dict(day_determiner = day_determiner)
 
 
 @app.route('/')
