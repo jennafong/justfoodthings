@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Let's Find Good Food{% endblock %}
+
+{% block content %}
+
+<div id='restaurant_ideas'>
+    <p> Click on a photo to learn more!</p>
+    {% for data in my_data %}
+       <a href="/details/{{data['id']}}"><img src="{{data['image_url']}}"></a>  
+    {% endfor %}
+</div>
+{% endblock %}
