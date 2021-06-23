@@ -68,8 +68,23 @@ def format_biz_hours():
         }
         # update dictionary with provided times from dictionaries in the list
         # possibly need to index or have a counter because the day determines the hours
+        # could make an array of days =
         for hours in yelp_hours_list:
-            hours['day']
+            if hours['day'] == 0:
+                days_dict['Monday'] = business_hours(hours)
+            if hours['day'] == 1:
+                days_dict['Tuesday'] = business_hours(hours)
+            if hours['day'] == 2:
+                days_dict['Wednesday'] = business_hours(hours)
+            if hours['day'] == 3:
+                days_dict['Thursday'] = business_hours(hours)
+            if hours['day'] == 4:
+                days_dict['Friday'] = business_hours(hours)
+            if hours['day'] == 5:
+                days_dict['Saturday'] = business_hours(hours)
+            if hours['day'] == 6:
+                days_dict['Sunday'] = business_hours(hours)
+
 
         return days_dict
         # days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
