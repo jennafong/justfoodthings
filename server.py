@@ -7,6 +7,8 @@ import requests
 import json
 import my_secrets
 from random import randint
+from model import connect_to_db
+import crud
 
 
 app = Flask(__name__)
@@ -113,6 +115,22 @@ def homepage():
     """Show the homepage."""
 
     return render_template('homepage.html')
+
+@app.route('/users', methods = ['POST'])
+def create_login():
+
+    user_email = request.form['user_email']
+    user_password = request.form['password']
+
+    user = crud.get_user_by_email(user_email)
+
+    if user != None:
+        flash('This user already exists')   
+    else:
+        crud.create_user(user_email, user_password)
+        flash('Account created!')
+
+    return redirect('/')
 
 @app.route('/api/search-businesses', methods=['POST'])
 def search_businesses():
