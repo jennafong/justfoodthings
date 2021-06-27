@@ -1,7 +1,6 @@
 """Models for JustFoodThings app."""
 
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin
 import my_secrets
 
 db = SQLAlchemy()
@@ -10,14 +9,14 @@ db = SQLAlchemy()
 # Replace this with your code!
 
 
-def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
+def connect_to_db(flask_app, db_uri='postgresql:///restaurant_thoughts', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    flask_app.config['SECRET_KEY'] = my_secrets.FLASK_SECRET_KEY
 
     db.app = flask_app
     db.init_app(flask_app)
+    
 
     print('Connected to the db!')
 
@@ -25,7 +24,7 @@ class User(db.Model):
     """A user."""
 
     __tablename__ = 'users'
-
+  
     user_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
@@ -57,7 +56,7 @@ class Restaurant(db.Model):
 
 
 class Rating(db.Model):
-    """A rating."""
+    """A rating of a restaurant."""
 
     __tablename__ = 'ratings'
 
@@ -65,6 +64,7 @@ class Rating(db.Model):
                         autoincrement=True,
                         primary_key=True)
     score = db.Column(db.Integer)
+    comments = db.Column(db.Text)
     restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     # stretch goal data. if implementing, I think i have to delete the db and start over. 

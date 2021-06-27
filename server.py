@@ -7,7 +7,7 @@ import requests
 import json
 import my_secrets
 from random import randint
-from model import connect_to_db
+import model
 import crud
 
 
@@ -37,7 +37,6 @@ def military_to_standard(num):
         the_pms = biz_hours - 12
         return f"{the_pms}:{biz_minutes} PM"
         
-
 def business_hours(yelp_hours_dict):
     """Takes in the yelp data for business hours,
     {'is_overnight': False, 'start': '1700', 'end': '2100', 'day': 2},
@@ -49,8 +48,6 @@ def business_hours(yelp_hours_dict):
     
     elif yelp_hours_dict['is_overnight'] == False:
         return f"{military_to_standard(yelp_hours_dict['start'])} - {military_to_standard(yelp_hours_dict['end'])}"
-
-   
 
 @app.context_processor
 def format_biz_hours():
@@ -87,34 +84,22 @@ def format_biz_hours():
             if hours['day'] == 6:
                 days_dict['Sunday'] = business_hours(hours)
 
-
         return days_dict
-        # days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        # days_abbr = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        # count = 0
-
-        # while count >= 6:
-        #     #get a list of dictionaries
-        #     #loop through. print the day name. if the item we are looking at is not for the right day, print closed
-        #     # if the item we are looking at IS for the right day print the time using the biz hour conversion function
-        #     # for to do later default to closed and if it has a 'day' then replace with hours
-
-
-        #     # for dict in yelp_hours_list:
-        #     #     if dict.get('day', count) is count:
-        #     #         return f'{days[count]}: {business_hours(dict)}'
-        #     #     else:
-        #     #         return f'{days[count]}: Closed'
-        #     #     count += 1
 
     return dict(day_determiner = day_determiner)
-
 
 @app.route('/')
 def homepage():
     """Show the homepage."""
 
     return render_template('homepage.html')
+
+@app.route('/loginpage')
+def login():
+    """Show the login/create account page."""
+
+    return render_template('login.html')
+
 
 @app.route('/users', methods = ['POST'])
 def create_login():
@@ -128,7 +113,28 @@ def create_login():
         flash('This user already exists')   
     else:
         crud.create_user(user_email, user_password)
+    
         flash('Account created!')
+
+    return redirect('/')
+
+@app.route("/login", methods = ['POST'])
+def login_page():
+    """Log user in and add user info to session"""
+
+    user_email = request.form['user_email']
+    user_password = request.form['password']
+
+    user = crud.get_user_by_email(user_email)
+
+    if user == None:
+        flash('That login doesn\'t exist. Sorry bro.')
+    else:
+        if user.password == user_password:
+            session['user_email'] = user_email
+            flash('Ya logged in. Ya done good.')
+        else:
+            flash("Ya didn't log in. Ya done goofed.")
 
     return redirect('/')
 
@@ -184,5 +190,6 @@ def show_details(id):
 
 
 if __name__ == '__main__':
+    model.connect_to_db(app)
     app.debug = True
     app.run(host='0.0.0.0')

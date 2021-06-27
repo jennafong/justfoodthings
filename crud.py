@@ -18,6 +18,10 @@ def show_all_users():
 
     return User.query.all()
 
+def get_user_by_email(email):
+    """Returns user based on email"""
+
+    return User.query.filter(User.email == email).first()
 
 def create_rating(score, user, restaurant):
     """Create and return a new rating.

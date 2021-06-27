@@ -47,3 +47,16 @@
 'address2': '', 'address3': '', 'city': 'Baltimore', 'zip_code': '21201', 
 'country': 'US', 'state': 'MD', 'display_address': ['102 W Clay St', 'Baltimore, MD 21201']}, 
 'phone': '+14102448837', 'display_phone': '(410) 244-8837', 'distance': 317.24953541384104}]
+
+         <p>              
+                {% for hour_info in data['hours'][0].open %}    
+                    <p> {{ hour_info }} </p>
+                {% endfor %}
+            </p>    
+
+                        <p>              
+                {% for hour_info in data['hours'][0].open %}    
+                    <p> {{ business_hours(hour_info) }} </p>
+                {% endfor %}
+            </p> 
+   
