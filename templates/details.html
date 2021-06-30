@@ -3,9 +3,8 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block head %}
-  <link rel="stylesheet" href="/static/css/maps.css"/>
 
-  <script src="/static/js/mapsDemo.js"></script>
+  <script src="/static/js/detailsmap.js"></script>
   <script
     async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUGVnroWJpcUmeIrmjxJfmSAObDacF7Q8&callback=initMap">
@@ -13,6 +12,9 @@
 {% endblock %}
 
 {% block content %}
+<section class="map" style="height:100%; width:100%">
+    <div id="map"></div>
+</section>
 <div id='restaurant_details'>
     <h2>{{ data['name'] }}</h2>
     <p>

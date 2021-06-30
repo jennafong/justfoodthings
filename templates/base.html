@@ -3,13 +3,31 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
 
+  <style>
+
+    #map {
+      height: 100%;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" 
         rel="stylesheet" 
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
         crossorigin="anonymous">
   
   <a href='/loginpage'>Login or Create Account</a>
-      
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+          integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+          crossorigin="anonymous">
+  </script>
+  {% block head %}{% endblock %}    
 </head>
 <body>
   <div class="container-fluid d-flex header">
