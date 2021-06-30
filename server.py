@@ -1,18 +1,21 @@
 from flask import (Flask, render_template, request, flash, session, redirect)
-
+from flask_login import LoginManager, current_user, login_user, logout_user
 # remove if you don't end up using this
 from pprint import pformat
+
 import os
 import requests
 import json
 import my_secrets
 from random import randint
-import model
 import crud
-
 
 app = Flask(__name__)
 app.secret_key = 'SECRETSECRETSECRET'
+login = LoginManager(app)
+
+import model
+
 
 # This configuration option makes the Flask interactive debugger
 # more useful (you should remove this line in production though)
@@ -95,32 +98,21 @@ def homepage():
     return render_template('homepage.html')
 
 @app.route('/loginpage')
-def login():
+def login_page():
     """Show the login/create account page."""
 
     return render_template('login.html')
 
+@login.user_loader
+def load_user(id):
+    return model.User.query.get(int(id))
 
-@app.route('/users', methods = ['POST'])
-def create_login():
-
-    user_email = request.form['user_email']
-    user_password = request.form['password']
-
-    user = crud.get_user_by_email(user_email)
-
-    if user != None:
-        flash('This user already exists')   
-    else:
-        crud.create_user(user_email, user_password)
-    
-        flash('Account created!')
-
-    return redirect('/')
-
-@app.route("/login", methods = ['POST'])
-def login_page():
+@app.route("/login", methods = ['GET', 'POST'])
+def loginuser():
     """Log user in and add user info to session"""
+
+    if current_user.is_authenticated:
+            return redirect('/')
 
     user_email = request.form['user_email']
     user_password = request.form['password']
@@ -129,14 +121,42 @@ def login_page():
 
     if user == None:
         flash('That login doesn\'t exist. Sorry bro.')
+        return redirect('/loginpage')
     else:
-        if user.password == user_password:
-            session['user_email'] = user_email
-            flash('Ya logged in. Ya done good.')
+        if user is None or not user.check_password(user_password):
+            flash('Invalid username or password.')
+            return redirect('/loginpage')
         else:
-            flash("Ya didn't log in. Ya done goofed.")
+            login_user(user)
+            flash('Login Successful')
+            return redirect('/')
 
-    return redirect('/')
+@app.route('/users', methods = ['POST'])
+def create_login():
+
+    user_email = request.form['user_email']
+    user_name = request.form['username']
+    user_password = request.form['password']
+
+    user = crud.get_user_by_email(user_email)
+    suggested_username = crud.get_user_by_username(user_name)
+
+    if user != None:
+        flash('Email already in use; please use another.')
+        return redirect('/loginpage') 
+    if suggested_username != None:
+        flash('Username already taken; please use another.')
+        return redirect('/loginpage')  
+    else:
+        crud.create_user(user_email, user_name, user_password)
+        flash('Account created! Please log in to access your account.')
+        return redirect('loginpage')
+
+
+@app.route('/logout')
+def logout():
+        logout_user()
+        return redirect('/')
 
 @app.route('/api/search-businesses', methods=['POST'])
 def search_businesses():

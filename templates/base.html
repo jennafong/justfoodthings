@@ -20,8 +20,13 @@
         rel="stylesheet" 
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
         crossorigin="anonymous">
-  
-  <a href='/loginpage'>Login or Create Account</a>
+  <div class='homerow'>
+    {% if current_user.is_anonymous %}
+    <a href='/loginpage'>Log In or Create Account</a> 
+    {% else %}
+    <a href='/logout'>Log Out</a> <a href='/account'>My Account</a>
+    {% endif %}
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.4.1.js"
           integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

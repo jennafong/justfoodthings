@@ -2,6 +2,8 @@
 
 from flask_sqlalchemy import SQLAlchemy
 import my_secrets
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
@@ -20,21 +22,31 @@ def connect_to_db(flask_app, db_uri='postgresql:///restaurant_thoughts', echo=Tr
 
     print('Connected to the db!')
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     """A user."""
 
     __tablename__ = 'users'
   
-    user_id = db.Column(db.Integer,
+    id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    email = db.Column(db.String, unique=True)
-    password = db.Column(db.String)
+    username = db.Column(db.String(64),
+                         unique=True)                    
+    email = db.Column(db.String(120), 
+                      unique=True)
+    password_hash = db.Column(db.String(128))
 
     # ratings = a list of Rating objects
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
+
 
 
 class Restaurant(db.Model):
@@ -65,8 +77,10 @@ class Rating(db.Model):
                         primary_key=True)
     score = db.Column(db.Integer)
     comments = db.Column(db.Text)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    restaurant_id = db.Column(db.Integer, 
+                              db.ForeignKey('restaurants.restaurant_id'))
+    user_id = db.Column(db.Integer, 
+                        db.ForeignKey('users.id'))
     # stretch goal data. if implementing, I think i have to delete the db and start over. 
     # blacklist = db.Column(db.Boolean,
     #                      nullable=False,
