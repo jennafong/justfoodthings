@@ -1,5 +1,5 @@
 from flask import (Flask, render_template, request, flash, session, redirect)
-from flask_login import LoginManager, current_user, login_user, logout_user
+from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 # remove if you don't end up using this
 from pprint import pformat
 
@@ -152,10 +152,10 @@ def create_login():
         flash('Account created! Please log in to access your account.')
         return redirect('loginpage')
 
-
 @app.route('/logout')
 def logout():
         logout_user()
+        flash('See you next time, space foodie!')
         return redirect('/')
 
 @app.route('/api/search-businesses', methods=['POST'])
@@ -208,6 +208,16 @@ def show_details(id):
     return render_template('details.html',
                            data = detail_data)
 
+@app.route('/account')
+@login_required
+def show_account_details():
+    """Shows details of a user's account."""
+    user_email = current_user.email 
+    user_name = current_user.username
+
+    return render_template('account.html',
+                            email = user_email,
+                            username = user_name)
 
 if __name__ == '__main__':
     model.connect_to_db(app)

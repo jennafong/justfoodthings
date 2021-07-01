@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Let's Find Good Food{% endblock %}
+
+{% block content %}
+
+<div class='personal_info'>
+   <h3>Account Details</h3>
+   <b><p>Email Address:</b> {{ email }}</p>
+   <b><p>Username:</b> {{ username }}</p>
+</div>
+<div class='favorites'>
+    <h3> My favorite places:</h3>
+    {% if favorites %}
+      <table>
+        <tr>
+            <th>Restaurant</th>
+            <th>Cuisine Type</th>
+        </tr>
+        {% for favorite in favorites %}
+          <tr>
+            <th>{{ restaurant }}</th>   
+            <th>{{ cuisine }}</th>            
+          </tr>
+        {% endfor %}
+        </table>    
+        
+        {% else %}
+            Nothing here yet!
+    {% endif %}
+</div>
+<div class='ratings'>
+    <h3> My rated places:</h3>
+    {% if rated %}
+      <table>
+        <tr>
+            <th>Restaurant</th>
+            <th>Cuisine Type</th>
+            <th>Ratings</th>
+        </tr>
+        {% for rating in rated %}
+          <tr>
+            <th>{{ restaurant }}</th>   
+            <th>{{ cuisine }}</th>
+            <th>{{ rating }}</th>            
+          </tr>
+        {% endfor %}
+        </table>    
+        
+        {% else %}
+            Nothing here yet!
+    {% endif %}
+</div>
+{% endblock %}
