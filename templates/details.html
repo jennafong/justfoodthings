@@ -12,10 +12,11 @@
 {% endblock %}
 
 {% block content %}
-<section class="map" style="height:100%; width:100%">
+<!-- <section class="map" style="height:100%; width:100%">
     <div id="map"></div>
-</section>
+</section> -->
 <div id='restaurant_details'>
+    {{ data }}
     <h2>{{ data['name'] }}</h2>
     <p>
         <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
@@ -54,9 +55,15 @@
     
 </div>
 <div class ='action_butts'>
-    <form action='/iwenthere'>
-        <button type="submit">I went here and wish to pass judgement.</button>
-    </form>
+    <p>
+    {% if current_user.is_anonymous %}
+        <a href='/loginpage'>Log In to Rate This Restauarant!</a> 
+    {% else %}
+        <form action='/iwenthere/{{data["id"]}}'>
+            <button type="submit">I went here and wish to pass judgement.</button>
+        </form>
+    {% endif %}
+    </p>
     Show me:
     <form action='/another'>
         <button type="submit">Another Random Listing</button>
@@ -65,7 +72,7 @@
         <button type="submit">List of Nearby Foods</button>
     </form>
     <form action='/ideas'>
-        <button type="submit">The Ideas Page</button>
+        <button type="submit">The Ideas</button>
     </form>
 </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, url_for)
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 # remove if you don't end up using this
 from pprint import pformat
@@ -13,6 +13,7 @@ import crud
 app = Flask(__name__)
 app.secret_key = 'SECRETSECRETSECRET'
 login = LoginManager(app)
+login.login_view = '/loginpage'
 
 import model
 
@@ -150,7 +151,7 @@ def create_login():
     else:
         crud.create_user(user_email, user_name, user_password)
         flash('Account created! Please log in to access your account.')
-        return redirect('loginpage')
+        return redirect('/loginpage')
 
 @app.route('/logout')
 def logout():
@@ -160,7 +161,7 @@ def logout():
 
 @app.route('/api/search-businesses', methods=['POST'])
 def search_businesses():
-    """Grab a location and radius from form and return yelp results."""
+    """Grab a location and radius from the homepage form and return yelp results."""
     
     address = request.form.get("address")
     city = request.form.get("city")
@@ -207,6 +208,63 @@ def show_details(id):
 
     return render_template('details.html',
                            data = detail_data)
+
+@app.route('/iwenthere/<id>', methods = ['GET', 'POST'])
+@login_required
+def i_went_here(id):
+    """Page for users to rate a restaurant and write something about it."""
+
+    endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
+    payload = {'Authorization': f'bearer {API_KEY}'}
+
+    response = requests.get(url = endpoint_url, headers = payload)
+
+    detail_data = response.json()
+
+    return render_template('iwenthere.html',
+                           data = detail_data)
+
+
+@app.route('/rating/<id>', methods = ['GET', 'POST'])
+@login_required
+def rate_restaurant(id):
+    """Get a restaurant rating. Save it to db. Display it to User."""
+
+    endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
+    payload = {'Authorization': f'bearer {API_KEY}'}
+
+    response = requests.get(url = endpoint_url, headers = payload)
+
+    detail_data = response.json()
+
+    user = current_user
+    score = 
+
+    # need to check if restaurant is already in db
+    if crud.check_for_restaurant(detail_data['id']):
+        crud.replace_rating()
+    else:
+        restaurant = crud.create_restaurant(detail_data['name'], detail_data['id'], detail_data['url'])
+
+    if request.form['submit_button'] == 'excellent': 
+        crud.create_rating("Excellent", user, restaurant)
+        return redirect(f'/iwenthere/{id}')
+                        
+    elif request.form['submit_button'] == 'good':
+        crud.create_rating("Good", user, restaurant)
+        return redirect(f'/iwenthere/{id}')
+        
+    elif request.form['submit_button'] == 'neutral':
+        crud.create_rating("Neutral", user, restaurant)
+        return redirect(f'/iwenthere/{id}')
+
+    elif request.form['submit_button'] == 'bad':
+        crud.create_rating("Bad", user, restaurant)
+        return redirect(f'/iwenthere/{id}')
+        
+    elif request.form['submit_button'] == 'abhorrent':
+        crud.create_rating("Abhorrent", user, restaurant)
+        return redirect(f'/iwenthere/{id}')
 
 @app.route('/account')
 @login_required

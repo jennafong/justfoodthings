@@ -75,7 +75,7 @@ class Rating(db.Model):
     rating_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True)
-    score = db.Column(db.Integer)
+    score = db.Column(db.String)
     comments = db.Column(db.Text)
     restaurant_id = db.Column(db.Integer, 
                               db.ForeignKey('restaurants.restaurant_id'))
