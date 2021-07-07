@@ -45,7 +45,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} email={self.email}>'
+        return f'<User user_id={self.id} email={self.email}>'
 
 
 
@@ -89,6 +89,11 @@ class Rating(db.Model):
 
     restaurant = db.relationship('Restaurant', backref='ratings')
     user = db.relationship('User', backref='ratings')
+
+    def update_rating(self, new_score):
+        """Updates an existing rating."""
+
+        self.score = new_score
 
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} score={self.score}>'

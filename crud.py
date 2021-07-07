@@ -45,9 +45,15 @@ def check_for_restaurant(restaurant_yelp_id):
     """Checks db for existing restaurant. Returns restaurant_id if
     restaurant exists and False if restaurant does not exist."""
     if Restaurant.query.filter(Restaurant.yelp_id == restaurant_yelp_id).first() is None:
-        return Restaurant.restaurant_id
+        return False
     else:
-        return True 
+        return restaurant_yelp_id
+
+def get_restaurant_id(restaurant_yelp_id):
+    """Takes a yelp_id for a restaurant and returns the restaurant_id."""
+    
+    return Restaurant.query.filter(Restaurant.yelp_id == restaurant_yelp_id).first().restaurant_id
+    
 
 def get_rating_by_user_restaurant(user, restaurant):
     """Returns a rating based on user and restaurant."""
@@ -57,11 +63,11 @@ def get_rating_by_user_restaurant(user, restaurant):
 def replace_rating(score, user, restaurant):
     """Only allows a user to have a restaurant listed once."""
 
-    new = Rating.query.filter(Rating.user_id == user, Rating.restaurant_id == restaurant)
-    new.score = score
+    existing_rating = get_rating_by_user_restaurant(user, restaurant)
+    existing_rating.update_rating(score)
     db.session.commit()
 
-    return Rating.query.filter(Rating.user_id == user, Rating.restaurant_id == restaurant)
+    return existing_rating
 
 
 def create_rating(score, user, restaurant):

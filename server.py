@@ -238,33 +238,40 @@ def rate_restaurant(id):
     detail_data = response.json()
 
     user = current_user
-    score = 
+    score = request.form.get('submit_button')
 
     # need to check if restaurant is already in db
     if crud.check_for_restaurant(detail_data['id']):
-        crud.replace_rating()
+        user = current_user.id
+        restaurant = crud.get_restaurant_id(detail_data['id'])
+        crud.replace_rating(score, user, restaurant)
+        return redirect(f'/iwenthere/{id}')
     else:
         restaurant = crud.create_restaurant(detail_data['name'], detail_data['id'], detail_data['url'])
 
-    if request.form['submit_button'] == 'excellent': 
-        crud.create_rating("Excellent", user, restaurant)
-        return redirect(f'/iwenthere/{id}')
-                        
-    elif request.form['submit_button'] == 'good':
-        crud.create_rating("Good", user, restaurant)
-        return redirect(f'/iwenthere/{id}')
-        
-    elif request.form['submit_button'] == 'neutral':
-        crud.create_rating("Neutral", user, restaurant)
+        crud.create_rating(score, user, restaurant)
+
         return redirect(f'/iwenthere/{id}')
 
-    elif request.form['submit_button'] == 'bad':
-        crud.create_rating("Bad", user, restaurant)
-        return redirect(f'/iwenthere/{id}')
-        
-    elif request.form['submit_button'] == 'abhorrent':
-        crud.create_rating("Abhorrent", user, restaurant)
-        return redirect(f'/iwenthere/{id}')
+        # if request.form['submit_button'] == 'Excellent': 
+        #     crud.create_rating("Excellent", user, restaurant)
+        #     return redirect(f'/iwenthere/{id}')
+                            
+        # elif request.form['submit_button'] == 'Good':
+        #     crud.create_rating("Good", user, restaurant)
+        #     return redirect(f'/iwenthere/{id}')
+            
+        # elif request.form['submit_button'] == 'Neutral':
+        #     crud.create_rating("Neutral", user, restaurant)
+        #     return redirect(f'/iwenthere/{id}')
+
+        # elif request.form['submit_button'] == 'Bad':
+        #     crud.create_rating("Bad", user, restaurant)
+        #     return redirect(f'/iwenthere/{id}')
+            
+        # elif request.form['submit_button'] == 'Abhorrent':
+        #     crud.create_rating("Abhorrent", user, restaurant)
+        #     return redirect(f'/iwenthere/{id}')
 
 @app.route('/account')
 @login_required
