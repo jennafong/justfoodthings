@@ -163,11 +163,17 @@ def logout():
 def search_businesses():
     """Grab a location and radius from the homepage form and return yelp results."""
     
-    address = request.form.get("address")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    radius = request.form.get("mile_radius")
+    if request.method == 'POST':
+        session["address"] = request.form.get("address")
+        session["city"] = request.form.get("city")
+        session["state"] = request.form.get("state")
+        session["radius"] = request.form.get("mile_radius")
     
+    address = session["address"]
+    city = session["city"]
+    state = session["state"]
+    radius = session['radius']
+
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
 

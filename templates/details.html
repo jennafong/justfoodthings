@@ -16,7 +16,7 @@
     <div id="map"></div>
 </section> -->
 <div id='restaurant_details'>
-    {{ data }}
+    
     <h2>{{ data['name'] }}</h2>
     <p>
         <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
@@ -35,7 +35,8 @@
                         {% endfor %}   
     </p>                
     <p>
-        <b>Hours:</b>  
+        <b>Hours:</b> 
+            {% if 'hours' in data %} 
             <p>
                 Currently {% if data['hours'][0].is_open_now %} Open! 
                 {% else %} Closed :( {% endif %}
@@ -45,6 +46,9 @@
                     <p>{{ day }}: {{ hours }}</p>
                 {% endfor %}        
             </p>     
+            {% else %}
+            This business does not have its hours listed on Yelp. :(
+            {% endif %}
 
     </p>
 
@@ -65,14 +69,14 @@
     {% endif %}
     </p>
     Show me:
-    <form action='/another'>
-        <button type="submit">Another Random Listing</button>
+    <form method="POST" action='/api/search-businesses'>
+        <button type="submit" value="random">Another Random Listing</button>
     </form>
     <form action='/nearby'>
-        <button type="submit">List of Nearby Foods</button>
+        <button type="submit" value="nearby">List of Nearby Foods</button>
     </form>
     <form action='/ideas'>
-        <button type="submit">The Ideas</button>
+        <button type="submit" value="ideas">The Ideas</button>
     </form>
 </div>
 {% endblock %}
