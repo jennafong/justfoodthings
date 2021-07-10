@@ -6,7 +6,7 @@ from pprint import pformat
 import os
 import requests
 import json
-import my_secrets
+from my_secrets import YELP_KEY
 from random import randint
 import crud
 
@@ -22,8 +22,7 @@ import model
 # more useful (you should remove this line in production though)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
-
-API_KEY = os.environ['YELP_KEY']
+API_KEY = YELP_KEY
 
 
 def military_to_standard(num):
@@ -164,16 +163,20 @@ def search_businesses():
     """Grab a location and radius from the homepage form and return yelp results."""
     
     if request.method == 'POST':
+        radius = request.form.get('mile_radius')
         session["address"] = request.form.get("address")
         session["city"] = request.form.get("city")
         session["state"] = request.form.get("state")
-        session["radius"] = request.form.get("mile_radius")
+        session["radius"] = radius
+        print(f' this is {radius} in the if statement')
     
-    address = session["address"]
-    city = session["city"]
-    state = session["state"]
-    radius = session['radius']
+    print(f' this is {radius} right outside the if statement')
+    address = session.get('address', '1600 Pennsylvania Ave')
+    city = session.get('city', 'Washington')
+    state = session.get('state', 'D.C.')
+    radius = session.get('radius', 1)
 
+    print(f' this is {radius} after I try to call it from the session')
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
 
@@ -198,6 +201,43 @@ def search_businesses():
         return redirect(f'/details/{my_data[rando_num]["id"]}')
         
     elif request.form['submit_button'] == 'ideas':
+        return render_template('ideas.html',
+                               my_data = my_data)
+
+@app.route('/api/search-again', methods=['POST'])
+def search_again():
+    """Get results from details page using sessions to store
+    the originally inputted information."""
+    
+    address = session.get('address', '1600 Pennsylvania Ave')
+    city = session.get('city', 'Washington')
+    state = session.get('state', 'D.C.')
+    radius = session.get('radius', 1)
+
+    #yelp uses meters, so i'm converting my miles roughly to meters
+    radius = int(radius) * 1609
+
+    endpoint_url ='https://api.yelp.com/v3/businesses/search'
+    payload = {'Authorization': f'bearer {API_KEY}'}
+
+    parameters = {'term':'restaurants',
+                  'limit': 10,
+                  'radius': radius,
+                  'location': f"{address}, {city}, {state}"}
+
+    response = requests.get(url = endpoint_url, params = parameters, headers = payload)
+    
+    business_data = response.json()
+    my_data = business_data['businesses']
+
+    if request.form['search-again-button'] == 'nearby':  
+        return render_template('nearby.html',
+                               my_data = my_data)
+    elif request.form['search-again-button'] == 'random':
+        rando_num = randint(0,9)
+        return redirect(f'/details/{my_data[rando_num]["id"]}')
+        
+    elif request.form['search-again-button'] == 'ideas':
         return render_template('ideas.html',
                                my_data = my_data)
 

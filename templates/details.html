@@ -69,14 +69,10 @@
     {% endif %}
     </p>
     Show me:
-    <form method="POST" action='/api/search-businesses'>
-        <button type="submit" value="random">Another Random Listing</button>
-    </form>
-    <form action='/nearby'>
-        <button type="submit" value="nearby">List of Nearby Foods</button>
-    </form>
-    <form action='/ideas'>
-        <button type="submit" value="ideas">The Ideas</button>
+    <form method ='POST' action='/api/search-again'>
+        <button type="submit" name='search-again-button' value="random">Another Random Listing</button>
+        <button type="submit" name='search-again-button' value="nearby">List of Nearby Foods</button>
+        <button type="submit" name='search-again-button' value="ideas">The Ideas</button>
     </form>
 </div>
 {% endblock %}
