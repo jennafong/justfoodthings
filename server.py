@@ -168,15 +168,12 @@ def search_businesses():
         session["city"] = request.form.get("city")
         session["state"] = request.form.get("state")
         session["radius"] = radius
-        print(f' this is {radius} in the if statement')
-    
-    print(f' this is {radius} right outside the if statement')
+
     address = session.get('address', '1600 Pennsylvania Ave')
     city = session.get('city', 'Washington')
     state = session.get('state', 'D.C.')
     radius = session.get('radius', 1)
 
-    print(f' this is {radius} after I try to call it from the session')
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
 
@@ -235,6 +232,8 @@ def search_again():
                                my_data = my_data)
     elif request.form['search-again-button'] == 'random':
         rando_num = randint(0,9)
+        # the 9 needs to not be constant. need to change it so that it reflects
+        # the upper limit of how many results we get
         return redirect(f'/details/{my_data[rando_num]["id"]}')
         
     elif request.form['search-again-button'] == 'ideas':
@@ -267,8 +266,18 @@ def i_went_here(id):
 
     detail_data = response.json()
 
+    # If this restauarant has been rated by user before, grab the data to show
+    # user's previous rating
+
+    if crud.check_for_restaurant(id):
+        restaurant = crud.get_restaurant_id(id)
+        current_rating = crud.get_rating_by_user_restaurant(current_user.id, restaurant)
+    else:
+        current_rating = None
+
     return render_template('iwenthere.html',
-                           data = detail_data)
+                           data = detail_data,
+                           current_rating = current_rating)
 
 
 @app.route('/rating/<id>', methods = ['GET', 'POST'])
@@ -299,25 +308,6 @@ def rate_restaurant(id):
 
         return redirect(f'/iwenthere/{id}')
 
-        # if request.form['submit_button'] == 'Excellent': 
-        #     crud.create_rating("Excellent", user, restaurant)
-        #     return redirect(f'/iwenthere/{id}')
-                            
-        # elif request.form['submit_button'] == 'Good':
-        #     crud.create_rating("Good", user, restaurant)
-        #     return redirect(f'/iwenthere/{id}')
-            
-        # elif request.form['submit_button'] == 'Neutral':
-        #     crud.create_rating("Neutral", user, restaurant)
-        #     return redirect(f'/iwenthere/{id}')
-
-        # elif request.form['submit_button'] == 'Bad':
-        #     crud.create_rating("Bad", user, restaurant)
-        #     return redirect(f'/iwenthere/{id}')
-            
-        # elif request.form['submit_button'] == 'Abhorrent':
-        #     crud.create_rating("Abhorrent", user, restaurant)
-        #     return redirect(f'/iwenthere/{id}')
 
 @app.route('/account')
 @login_required

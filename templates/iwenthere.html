@@ -21,18 +21,34 @@
         <b>Address:</b> {% for line in data['location']['display_address'] %}
                           {{ line }}
                         {% endfor %}   
-    </p>                
-   
-    Rating:
-    <form id='restaurant_score' method='POST' action='/rating/{{data["id"]}}'>
-        <button type="submit" name="submit_button" value="Excellent">This Place is AMAZING</button>
-        <button type="submit" name="submit_button" value="Good">Pretty Good</button>
-        <button type="submit" name="submit_button" value="Neutral">Not Bad, Not Good</button>
-        <button type="submit" name="submit_button" value="Bad">It's Bad</button>
-        <button type="submit" name="submit_button" value="Abhorrent">I'll Be In Hell When I Eat Here Again</button>
-    </form>
+    </p>
+
     
-      
-  
+    {% if current_rating %}
+        <div id='current_rating'>
+        <p><b>You find this restaurant to be:</b> {{ current_rating.score }}!</p>
+        </div>
+    {% else %}  
+        <p><div id='rating_form'>
+            <b>Rate Me:</b>
+            <form id='restaurant_score' method='POST' action='/rating/{{data["id"]}}'>
+                <button type="submit" name="submit_button" value="Excellent">This Place is AMAZING</button>
+                <button type="submit" name="submit_button" value="Good">Pretty Good</button>
+                <button type="submit" name="submit_button" value="Neutral">Not Bad, Not Good</button>
+                <button type="submit" name="submit_button" value="Bad">It's Bad</button>
+                <button type="submit" name="submit_button" value="Abhorrent">I'll Be In Hell When I Eat Here Again</button>
+            </form>
+        </div></p>
+    {% endif %} 
+
+    <b>Put me back out there, coach:</b>
+    <form method ='POST' action='/api/search-again'>
+        <button type="submit" name="search-again-button" value="random">Another Random Listing</button>
+        <button type="submit" name="search-again-button" value="nearby">List of Nearby Foods</button>
+        <button type="submit" name="search-again-button" value="ideas">The Ideas</button>
+    </form>
+    <form action='/'>  
+    <button type="submit" name="start_over">Search With New Address</button>
+    </form>
 </div>
 {% endblock %}
