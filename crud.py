@@ -54,7 +54,6 @@ def get_restaurant_id(restaurant_yelp_id):
     
     return Restaurant.query.filter(Restaurant.yelp_id == restaurant_yelp_id).first().restaurant_id
     
-
 def get_rating_by_user_restaurant(user, restaurant):
     """Returns a rating based on user and restaurant."""
 
@@ -69,7 +68,6 @@ def replace_rating(score, user, restaurant):
 
     return existing_rating
 
-
 def create_rating(score, user, restaurant):
     """Create and return a new rating.
     user and restaurant should be objects."""
@@ -81,8 +79,25 @@ def create_rating(score, user, restaurant):
 
     return rating
 
+def create_comment(comment, user, restaurant):
+    """Create a comment to go along with a user's restaurant rating."""
 
+    existing_rating = get_rating_by_user_restaurant(user, restaurant)
+    existing_rating.comment(comment)
+    db.session.commit()
 
+    return comment
+
+def check_for_comment(rating):
+    """Checks db for existing restaurant comment using the rating_id. 
+    Returns comment if comment exists and None if comment does not exist."""
+
+    existing_rating = Rating.query.filter(Rating.rating_id == rating).first()
+
+    if existing_rating.comments == None:
+        return None
+    else: 
+        return existing_rating.comments
 
 if __name__ == '__main__':
     from server import app

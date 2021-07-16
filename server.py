@@ -268,16 +268,20 @@ def i_went_here(id):
 
     # If this restauarant has been rated by user before, grab the data to show
     # user's previous rating
+    # If this restauarant has been commented on by user before, grab the data to show
+    # user's comment.
 
     if crud.check_for_restaurant(id):
         restaurant = crud.get_restaurant_id(id)
         current_rating = crud.get_rating_by_user_restaurant(current_user.id, restaurant)
+        comment = crud.check_for_comment(current_rating.rating_id)
     else:
         current_rating = None
-
+        comment = None
     return render_template('iwenthere.html',
                            data = detail_data,
-                           current_rating = current_rating)
+                           current_rating = current_rating,
+                           comment = comment)
 
 
 @app.route('/rating/<id>', methods = ['GET', 'POST'])
@@ -308,6 +312,25 @@ def rate_restaurant(id):
 
         return redirect(f'/iwenthere/{id}')
 
+@app.route('/comment/<id>', methods = ['GET', 'POST'])
+@login_required
+def leave_comment(id):
+    """Using a restaurant rating, leave a comment. Display it to User."""
+
+    endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
+    payload = {'Authorization': f'bearer {API_KEY}'}
+
+    response = requests.get(url = endpoint_url, headers = payload)
+
+    detail_data = response.json()
+
+    user = current_user.id
+    comment = request.form.get('about_restaurant')
+    restaurant = crud.get_restaurant_id(id)
+
+    crud.create_comment(comment, user, restaurant)
+    
+    return redirect(f'/iwenthere/{id}')
 
 @app.route('/account')
 @login_required

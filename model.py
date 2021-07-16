@@ -95,6 +95,11 @@ class Rating(db.Model):
 
         self.score = new_score
 
+    def comment(self, comment):
+        """Adds a comment to a rating."""
+
+        self.comments = comment
+
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} score={self.score}>'
 

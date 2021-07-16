@@ -31,7 +31,7 @@
         <div id='re_rate'>
             <p><button id='rate_again'>Re-rate Me?</button></p>    
         </div>
-        
+
         <script>
             "use strict";
             const button = document.querySelector('#rate_again')
@@ -51,7 +51,18 @@
             
             });
         </script>
-
+        {% if comment %}
+            <p><b>Comments:</b> {{ comment }}</p>
+        {% else %}
+            <div id='comment_box'>
+                <h5>Comments:</h5>
+                <p>Say something about this restaurant.</p>
+                <form id='restaurant_comments' method='POST' action='/comment/{{data["id"]}}'>
+                    <textarea name='about_restaurant'></textarea>
+                    <button type='submit' name='comment_form'>Submit</button>
+                </form>
+            </div>        
+        {% endif %}
     {% else %}  
         <p><div id='rating_form'>
             <b>Rate Me:</b>
@@ -66,7 +77,7 @@
     {% endif %} 
    
 
-    <b>Put me back out there, coach:</b>
+    <p><b>Put me back out there, coach:</p></b>
     <form method ='POST' action='/api/search-again'>
         <button type='submit' name='search-again-button' value='random'>Another Random Listing</button>
         <button type='submit' name='search-again-button' value='nearby'>List of Nearby Foods</button>
