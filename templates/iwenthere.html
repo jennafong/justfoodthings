@@ -37,7 +37,7 @@
             const button = document.querySelector('#rate_again')
             const reRate = document.querySelector('#re_rate')
             var ratingButtons = '<p><div id=\'rating_form\'>' +
-                                        '<b>Rate Me:</b>' +
+                                        '<b>Re-Rate Me:</b>' +
                                         '<form id=\'restaurant_score\' method=\'POST\' action=\'/rating/{{data["id"]}}\'>' +
                                             '<button type=\'submit\' name=\'submit_button\' value=\'Excellent\'>This Place is AMAZING</button>' +
                                             '<button type=\'submit\' name=\'submit_button\' value=\'Good\'>Pretty Good</button>' +
@@ -52,11 +52,31 @@
             });
         </script>
         {% if comment %}
-            <p><b>Comments:</b> {{ comment }}</p>
+            <div id='edit_comment'>    
+                <p><b>Comments:</b> {{ comment }}
+                <button id='edit_button'>Edit</button></p>
+            </div>
+
+            <script>
+                "use strict";
+                
+                const edit_button = document.querySelector('#edit_button')
+                const edit_div = document.querySelector('#edit_comment')
+
+                const edit_field = '<form id=\'restaurant_comments\' method=\'POST\' action=\'/edit_comment/{{data["id"]}}\'>' +
+                                        '<textarea name=\'updated_about_restaurant\'>{{ comment }}</textarea>' +
+                                        '<button type=\'submit\' name=\'comment_form\'>Submit</button>' +
+                                    '</form>';
+               
+                edit_button.addEventListener('click', () => {
+                    edit_div.innerHTML = edit_field;
+                
+                });
+            </script>
         {% else %}
             <div id='comment_box'>
                 <h5>Comments:</h5>
-                <p>Say something about this restaurant.</p>
+                <p>Say something about this restaurant related to the rating you gave. :)</p>
                 <form id='restaurant_comments' method='POST' action='/comment/{{data["id"]}}'>
                     <textarea name='about_restaurant'></textarea>
                     <button type='submit' name='comment_form'>Submit</button>

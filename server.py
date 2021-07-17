@@ -332,6 +332,18 @@ def leave_comment(id):
     
     return redirect(f'/iwenthere/{id}')
 
+@app.route('/edit_comment/<id>', methods = ['POST'])
+@login_required
+def edit_comment(id):
+    """Allow user to edit their existing comment on a restaurant."""
+
+    new_comment = request.form.get('updated_about_restaurant')
+    current_rating = crud.get_rating_by_user_restaurant(current_user.id, crud.get_restaurant_id(id)).rating_id
+    
+    crud.udpate_comment(current_rating, new_comment)
+    
+    return redirect(f'/iwenthere/{id}')
+
 @app.route('/account')
 @login_required
 def show_account_details():

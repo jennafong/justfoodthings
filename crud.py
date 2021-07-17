@@ -1,4 +1,4 @@
-""" CRUD operations """
+""" CRUD operations. Create, Read, Update, Delete """
 
 from model import db, User, Restaurant, Rating, connect_to_db
 
@@ -79,6 +79,7 @@ def create_rating(score, user, restaurant):
 
     return rating
 
+#figure out if this is safe from SQL injection
 def create_comment(comment, user, restaurant):
     """Create a comment to go along with a user's restaurant rating."""
 
@@ -98,6 +99,15 @@ def check_for_comment(rating):
         return None
     else: 
         return existing_rating.comments
+
+def udpate_comment(rating, new_comment):
+    """Updates an existing comment."""
+
+    existing_comment = Rating.query.filter(Rating.rating_id == rating).first()
+    existing_comment.update_comment(new_comment)
+    db.session.commit()
+
+    return None
 
 if __name__ == '__main__':
     from server import app

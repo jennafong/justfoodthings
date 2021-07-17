@@ -48,7 +48,6 @@ class User(UserMixin, db.Model):
         return f'<User user_id={self.id} email={self.email}>'
 
 
-
 class Restaurant(db.Model):
     """A restaurant."""
 
@@ -100,9 +99,15 @@ class Rating(db.Model):
 
         self.comments = comment
 
+    def update_comment(self, new_comment):
+        """Updates an existing comment."""
+
+        self.comments = new_comment
+
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} score={self.score}>'
 
+        
 if __name__ == '__main__':
     from server import app
 
