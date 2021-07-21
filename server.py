@@ -351,9 +351,12 @@ def show_account_details():
     user_email = current_user.email 
     user_name = current_user.username
 
+    ratings = crud.get_all_ratings(current_user.id)
+
     return render_template('account.html',
                             email = user_email,
-                            username = user_name)
+                            username = user_name,
+                            rated = ratings)
 
 if __name__ == '__main__':
     model.connect_to_db(app)

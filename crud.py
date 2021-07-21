@@ -109,6 +109,16 @@ def udpate_comment(rating, new_comment):
 
     return None
 
+def get_all_ratings(user):
+    """Returns all user ratings from database using user_id."""
+
+    ratings = db.session.query(Rating.score,
+                           Rating.comments,
+                           Restaurant.restaurant_name,
+                           Restaurant.yelp_id).filter(Rating.user_id == user).join(Restaurant).all()
+
+    return ratings
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

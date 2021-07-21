@@ -9,7 +9,7 @@
    <b><p>Email Address:</b> {{ email }}</p>
    <b><p>Username:</b> {{ username }}</p>
 </div>
-<div class='favorites'>
+<!-- <div class='favorites'>
     <h3> My favorite places:</h3>
     {% if favorites %}
       <table>
@@ -28,21 +28,21 @@
         {% else %}
             Nothing here yet!
     {% endif %}
-</div>
+</div> -->
 <div class='ratings'>
     <h3> My rated places:</h3>
     {% if rated %}
       <table>
         <tr>
-            <th>Restaurant</th>
-            <th>Cuisine Type</th>
-            <th>Ratings</th>
+            <th><h4>Restaurant</h4></th>
+            <th><h4>Rating</h4></th>
+            <th><h4>Comment</h4></th>
         </tr>
         {% for rating in rated %}
           <tr>
-            <th>{{ restaurant }}</th>   
-            <th>{{ cuisine }}</th>
-            <th>{{ rating }}</th>            
+            <th><a href="/details/{{ rating[3] }}">{{ rating[2] }}</a></th>   
+            <th>{{ rating[0] }}</th>
+            <th>{{ rating[1] }}</th>            
           </tr>
         {% endfor %}
         </table>    
