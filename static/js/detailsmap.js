@@ -1,11 +1,12 @@
 "use strict";
 
+
 function initMap() {
 
 
     const restaurantCoords = {
-      lat: 37.601773,
-      lng: -122.202870
+      lat: 42,
+      lng: 42
     };
   
     const basicMap = new google.maps.Map(
@@ -92,4 +93,4 @@ function initMap() {
       });
     }
   }
-  
+ 

@@ -195,7 +195,7 @@ def search_businesses():
                                my_data = my_data)
     elif request.form['submit_button'] == 'random':
         rando_num = randint(0,9)
-        return redirect(f'/details/{my_data[rando_num]["id"]}')
+        return redirect(f'/api/details/{my_data[rando_num]["id"]}')
         
     elif request.form['submit_button'] == 'ideas':
         return render_template('ideas.html',
@@ -234,13 +234,13 @@ def search_again():
         rando_num = randint(0,9)
         # the 9 needs to not be constant. need to change it so that it reflects
         # the upper limit of how many results we get
-        return redirect(f'/details/{my_data[rando_num]["id"]}')
+        return redirect(f'/api/details/{my_data[rando_num]["id"]}')
         
     elif request.form['search-again-button'] == 'ideas':
         return render_template('ideas.html',
                                my_data = my_data)
 
-@app.route('/details/<id>')
+@app.route('/api/details/<id>')
 def show_details(id):    
     """Shows more details about a singular restaurant."""
 
@@ -251,10 +251,31 @@ def show_details(id):
 
     detail_data = response.json()
 
+    session["yelp_restaurant_id"] = id
+
     return render_template('details.html',
                            data = detail_data)
 
-@app.route('/iwenthere/<id>', methods = ['GET', 'POST'])
+# @app.route('/api/details_load_map')
+# def details_load_map():
+#     """Grabs coordinates for restaurant and returns them to the js
+#        function in detailsmap.js."""
+
+#     id = session["yelp_restaurant_id"]
+
+#     endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
+#     payload = {'Authorization': f'bearer {API_KEY}'}
+
+#     response = requests.get(url = endpoint_url, headers = payload)
+
+#     detail_data = response.json()
+    
+#     coordinates = {'latitude': detail_data['coordinates']['latitude'],
+#                    'longitude': detail_data['coordinates']['longitude']}
+
+#     return coordinates.json()
+
+@app.route('/api/iwenthere/<id>', methods = ['GET', 'POST'])
 @login_required
 def i_went_here(id):
     """Page for users to rate a restaurant and write something about it."""
@@ -284,7 +305,7 @@ def i_went_here(id):
                            comment = comment)
 
 
-@app.route('/rating/<id>', methods = ['GET', 'POST'])
+@app.route('/api/rating/<id>', methods = ['GET', 'POST'])
 @login_required
 def rate_restaurant(id):
     """Get a restaurant rating. Save it to db. Display it to User."""
@@ -310,7 +331,7 @@ def rate_restaurant(id):
 
         crud.create_rating(score, user, restaurant)
 
-        return redirect(f'/iwenthere/{id}')
+        return redirect(f'/api/iwenthere/{id}')
 
 @app.route('/comment/<id>', methods = ['GET', 'POST'])
 @login_required
@@ -330,7 +351,7 @@ def leave_comment(id):
 
     crud.create_comment(comment, user, restaurant)
     
-    return redirect(f'/iwenthere/{id}')
+    return redirect(f'/api/iwenthere/{id}')
 
 @app.route('/edit_comment/<id>', methods = ['POST'])
 @login_required
@@ -342,7 +363,7 @@ def edit_comment(id):
     
     crud.udpate_comment(current_rating, new_comment)
     
-    return redirect(f'/iwenthere/{id}')
+    return redirect(f'/api/iwenthere/{id}')
 
 @app.route('/account')
 @login_required

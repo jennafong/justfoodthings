@@ -4,17 +4,20 @@
 
 {% block head %}
 
-  <script src="/static/js/detailsmap.js"></script>
-  <script
+<script src="/static/js/detailsmap.js"></script>
+<script
     async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUGVnroWJpcUmeIrmjxJfmSAObDacF7Q8&callback=initMap">
-  </script>
+</script>
+  
 {% endblock %}
 
 {% block content %}
-<!-- <section class="map" style="height:100%; width:100%">
+<section class="map" style="height:50%; width:50%">
     <div id="map"></div>
-</section> -->
+</section>
+
+
 <div id='restaurant_details'>
     
     <h2>{{ data['name'] }}</h2>
@@ -63,7 +66,7 @@
     {% if current_user.is_anonymous %}
         <a href='/loginpage'>Log In to Rate This Restauarant!</a> 
     {% else %}
-        <form action='/iwenthere/{{data["id"]}}'>
+        <form action='/api/iwenthere/{{data["id"]}}'>
             <button type="submit">I went here and wish to pass judgement.</button>
         </form>
     {% endif %}

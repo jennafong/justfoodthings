@@ -36,9 +36,9 @@
             "use strict";
             const button = document.querySelector('#rate_again')
             const reRate = document.querySelector('#re_rate')
-            var ratingButtons = '<p><div id=\'rating_form\'>' +
+            const ratingButtons = '<p><div id=\'rating_form\'>' +
                                         '<b>Re-Rate Me:</b>' +
-                                        '<form id=\'restaurant_score\' method=\'POST\' action=\'/rating/{{data["id"]}}\'>' +
+                                        '<form id=\'restaurant_score\' method=\'POST\' action=\'/api/rating/{{data["id"]}}\'>' +
                                             '<button type=\'submit\' name=\'submit_button\' value=\'Excellent\'>This Place is AMAZING</button>' +
                                             '<button type=\'submit\' name=\'submit_button\' value=\'Good\'>Pretty Good</button>' +
                                             '<button type=\'submit\' name=\'submit_button\' value=\'Neutral\'>Not Bad, Not Good</button>' +
@@ -86,7 +86,7 @@
     {% else %}  
         <p><div id='rating_form'>
             <b>Rate Me:</b>
-            <form id='restaurant_score' method='POST' action='/rating/{{data["id"]}}'>
+            <form id='restaurant_score' method='POST' action='/api/rating/{{data["id"]}}'>
                 <button type='submit' name='submit_button' value='Excellent'>This Place is AMAZING</button>
                 <button type='submit' name='submit_button' value='Good'>Pretty Good</button>
                 <button type='submit' name='submit_button' value='Neutral'>Not Bad, Not Good</button>
