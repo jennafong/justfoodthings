@@ -2,24 +2,27 @@
 
 
 function initMap() {
-
+    
+    const bizLatitude = Number(document.querySelector("#details-map-info").getAttribute("business-latitude"))
+    const bizLongitude = Number(document.querySelector("#details-map-info").getAttribute("business-longitude"))
+    const bizName = document.querySelector("#details-map-info").getAttribute("business-name")
 
     const restaurantCoords = {
-      lat: 42,
-      lng: 42
+      lat: bizLatitude,
+      lng: bizLongitude
     };
   
     const basicMap = new google.maps.Map(
       document.querySelector('#map'),
       {
         center: restaurantCoords,
-        zoom: 11
+        zoom: 15
       }
     );
   
     const sfMarker = new google.maps.Marker({
       position: restaurantCoords,
-      title: 'SF Bay',
+      title: 'Restaurant Location',
       map: basicMap
     });
   
@@ -28,7 +31,7 @@ function initMap() {
     });
   
     const sfInfo = new google.maps.InfoWindow({
-      content: '<h1>San Francisco!</h1>'
+      content: '<h4>bizName</h4>'
     });
   
     sfInfo.open(basicMap, sfMarker);
