@@ -3,7 +3,9 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block head %}
-<meta id="details-map-info" business-name="{{ data['name']}}" business-latitude="{{ data['coordinates']['latitude'] }}" business-longitude="{{ data['coordinates']['longitude'] }}"></meta>
+<meta id="details-map-info" business-name="{{ data['name']}}" business-latitude="{{ data['coordinates']['latitude'] }}" 
+    business-longitude="{{ data['coordinates']['longitude'] }}" user-location-center="{{ user_location }}">
+</meta>
 <script src="/static/js/detailsmap.js"></script>
 <script
     async defer
@@ -17,6 +19,7 @@
     <div id="map"></div>
 </section>
 
+{{ user_location }}
 
 <div id='restaurant_details'>
     

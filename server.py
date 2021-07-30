@@ -118,7 +118,7 @@ def loginuser():
     user_password = request.form['password']
 
     user = crud.get_user_by_email(user_email)
-
+    
     if user == None:
         flash('That login doesn\'t exist. Sorry bro.')
         return redirect('/loginpage')
@@ -174,6 +174,9 @@ def search_businesses():
     state = session.get('state', 'D.C.')
     radius = session.get('radius', 1)
 
+    session['user_location'] = address, city, state
+    user_location = session.get('user_location')
+
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
 
@@ -192,7 +195,8 @@ def search_businesses():
 
     if request.form['submit_button'] == 'nearby':  
         return render_template('nearby.html',
-                               my_data = my_data)
+                               my_data = my_data,
+                               user_location = user_location)
     elif request.form['submit_button'] == 'random':
         rando_num = randint(0,9)
         return redirect(f'/api/details/{my_data[rando_num]["id"]}')
@@ -210,6 +214,8 @@ def search_again():
     city = session.get('city', 'Washington')
     state = session.get('state', 'D.C.')
     radius = session.get('radius', 1)
+
+    user_location = session.get('user_location')
 
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
@@ -229,7 +235,8 @@ def search_again():
 
     if request.form['search-again-button'] == 'nearby':  
         return render_template('nearby.html',
-                               my_data = my_data)
+                               my_data = my_data,
+                               user_location = user_location)
     elif request.form['search-again-button'] == 'random':
         rando_num = randint(0,9)
         # the 9 needs to not be constant. need to change it so that it reflects
@@ -252,28 +259,12 @@ def show_details(id):
     detail_data = response.json()
 
     session["yelp_restaurant_id"] = id
+    user_location = session.get('user_location')
 
     return render_template('details.html',
-                           data = detail_data)
+                           data = detail_data,
+                           user_location = user_location)
 
-# @app.route('/api/details_load_map')
-# def details_load_map():
-#     """Grabs coordinates for restaurant and returns them to the js
-#        function in detailsmap.js."""
-
-#     id = session["yelp_restaurant_id"]
-
-#     endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
-#     payload = {'Authorization': f'bearer {API_KEY}'}
-
-#     response = requests.get(url = endpoint_url, headers = payload)
-
-#     detail_data = response.json()
-    
-#     coordinates = {'latitude': detail_data['coordinates']['latitude'],
-#                    'longitude': detail_data['coordinates']['longitude']}
-
-#     return coordinates.json()
 
 @app.route('/api/iwenthere/<id>', methods = ['GET', 'POST'])
 @login_required
@@ -338,12 +329,12 @@ def rate_restaurant(id):
 def leave_comment(id):
     """Using a restaurant rating, leave a comment. Display it to User."""
 
-    endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
-    payload = {'Authorization': f'bearer {API_KEY}'}
+    # endpoint_url = f"https://api.yelp.com/v3/businesses/{id}"
+    # payload = {'Authorization': f'bearer {API_KEY}'}
 
-    response = requests.get(url = endpoint_url, headers = payload)
+    # response = requests.get(url = endpoint_url, headers = payload)
 
-    detail_data = response.json()
+    # detail_data = response.json()
 
     user = current_user.id
     comment = request.form.get('about_restaurant')
