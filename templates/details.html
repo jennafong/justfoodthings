@@ -4,8 +4,10 @@
 
 {% block head %}
 <meta id="details-map-info" business-name="{{ data['name']}}" business-latitude="{{ data['coordinates']['latitude'] }}" 
-    business-longitude="{{ data['coordinates']['longitude'] }}" user-location-center="{{ user_location }}">
+    business-longitude="{{ data['coordinates']['longitude'] }}" user-location-latitude="{{ user_coordinates['results'][0]['geometry']['location']['lat'] }}"
+    user-location-longitude="{{ user_coordinates['results'][0]['geometry']['location']['lng'] }}">
 </meta>
+
 <script src="/static/js/detailsmap.js"></script>
 <script
     async defer
@@ -19,7 +21,10 @@
     <div id="map"></div>
 </section>
 
-{{ user_location }}
+{{ user_coordinates['results'][0]['geometry']['location'] }}
+
+
+
 
 <div id='restaurant_details'>
     

@@ -6,7 +6,13 @@ function initMap() {
     const bizLatitude = Number(document.querySelector("#details-map-info").getAttribute("business-latitude"))
     const bizLongitude = Number(document.querySelector("#details-map-info").getAttribute("business-longitude"))
     const bizName = document.querySelector("#details-map-info").getAttribute("business-name")
-    const userLocation = document.querySelector("#details-map-info").getAttribute("user-location-center")
+    const userLatitude = Number(document.querySelector("#details-map-info").getAttribute("user-location-latitude"))
+    const userLongitude = Number(document.querySelector("#details-map-info").getAttribute("user-location-longitude"))
+
+    const userCoordinates = {
+      lat: userLatitude,
+      lng: userLongitude
+    };
 
     const restaurantCoords = {
       lat: bizLatitude,
@@ -16,35 +22,34 @@ function initMap() {
     const basicMap = new google.maps.Map(
       document.querySelector('#map'),
       {
-        center: restaurantCoords,
+        center: userCoordinates,
         zoom: 15
       }
     );
 
-    const user = new google.maps.Marker({
-      position: userLocation,
+    const userMarker = new google.maps.Marker({
+      position: userCoordinates,
       title: 'User Location',
-      map: basicMap
+      map: basicMap,
     });
 
-    const restaurant = new google.maps.Marker({
+    const userInfo = new google.maps.InfoWindow({
+      content: '<b>You!</b>'
+    });
+
+    userInfo.open(basicMap, userMarker);
+  
+    restaurantMarker = new google.maps.Marker({
       position: restaurantCoords,
-      title: 'Restaurant Location',
-      map: basicMap
+      title: bizName,
+      map: basicMap,
     });
-  
-    const restuarantInfo = new google.maps.InfoWindow({
-      content: bizName
+
+    const restaurantInfo = new google.maps.InfoWindow({
+      content: bizName,
     });
+
+    restaurantInfo.open(basicMap, restaurantMarker);
   
-      const infoWindow = new google.maps.InfoWindow({
-        content: markerInfo,
-        maxWidth: 200
-      });
-  
-      marker.addListener('click', () => {
-        infoWindow.open(basicMap, marker);
-      });
-    }
   }
  

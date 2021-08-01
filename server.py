@@ -177,6 +177,12 @@ def search_businesses():
     session['user_location'] = address, city, state
     user_location = session.get('user_location')
 
+    geocoding_url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    geocoding_parameters = {'address': user_location, 'key': 'AIzaSyD8OvrlS8xXwAqr4pjONZCC340A9mvbDao'} 
+    geocoding_response = requests.get(url = geocoding_url, params = geocoding_parameters)
+
+    user_coordinates = geocoding_response.json()
+
     #yelp uses meters, so i'm converting my miles roughly to meters
     radius = int(radius) * 1609
 
@@ -196,7 +202,8 @@ def search_businesses():
     if request.form['submit_button'] == 'nearby':  
         return render_template('nearby.html',
                                my_data = my_data,
-                               user_location = user_location)
+                               user_location = user_location,
+                               user_coordinates = user_coordinates)
     elif request.form['submit_button'] == 'random':
         rando_num = randint(0,9)
         return redirect(f'/api/details/{my_data[rando_num]["id"]}')
@@ -261,9 +268,16 @@ def show_details(id):
     session["yelp_restaurant_id"] = id
     user_location = session.get('user_location')
 
+    geocoding_url = 'https://maps.googleapis.com/maps/api/geocode/json'
+    geocoding_parameters = {'address': user_location, 'key': 'AIzaSyD8OvrlS8xXwAqr4pjONZCC340A9mvbDao'}
+    geocoding_response = requests.get(url = geocoding_url, params = geocoding_parameters)
+
+    user_coordinates = geocoding_response.json()
+
     return render_template('details.html',
                            data = detail_data,
-                           user_location = user_location)
+                           user_location = user_location,
+                           user_coordinates = user_coordinates)
 
 
 @app.route('/api/iwenthere/<id>', methods = ['GET', 'POST'])
