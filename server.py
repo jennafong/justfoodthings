@@ -91,6 +91,19 @@ def format_biz_hours():
 
     return dict(day_determiner = day_determiner)
 
+def biz_count(list_o_businesses):
+    """Takes in a list of businesses and returns the count as an integer.
+       Used for making sure we don't run into an out of range error for
+       viewing random restaurants."""
+
+    count = 0
+
+    for biz in list_o_businesses:
+        count += 1
+    
+    return count
+
+
 @app.route('/')
 def homepage():
     """Show the homepage."""
@@ -190,7 +203,7 @@ def search_businesses():
     payload = {'Authorization': f'bearer {API_KEY}'}
 
     parameters = {'term':'restaurants',
-                  'limit': 10,
+                  'limit': 25,
                   'radius': radius,
                   'location': f"{address}, {city}, {state}"}
 
@@ -199,18 +212,35 @@ def search_businesses():
     business_data = response.json()
     my_data = business_data['businesses']
 
-    if request.form['submit_button'] == 'nearby':  
-        return render_template('nearby.html',
-                               my_data = my_data,
-                               user_location = user_location,
-                               user_coordinates = user_coordinates)
+    #grab the amount of results to avoid range errors
+    
+    restaurant_count = biz_count(business_data['businesses'])
+    
+
+    if request.form['submit_button'] == 'nearby':
+        if restaurant_count == 0:
+            flash('Sorry! There are no restaurants in your vicinity. Please increase your radius or choose a different starting point.')  
+            return redirect('/')
+        else: 
+            return render_template('nearby.html',
+                                my_data = my_data,
+                                user_location = user_location,
+                                user_coordinates = user_coordinates)
     elif request.form['submit_button'] == 'random':
-        rando_num = randint(0,9)
-        return redirect(f'/api/details/{my_data[rando_num]["id"]}')
+        if restaurant_count == 0:
+            flash('Sorry! There are no restaurants in your vicinity. Please increase your radius or choose a different starting point.')  
+            return redirect('/')
+        else:
+            rando_num = randint(0, restaurant_count - 1)
+            return redirect(f'/api/details/{my_data[rando_num]["id"]}')
         
     elif request.form['submit_button'] == 'ideas':
-        return render_template('ideas.html',
-                               my_data = my_data)
+        if restaurant_count == 0:
+            flash('Sorry! There are no restaurants in your vicinity. Please increase your radius or choose a different starting point.')  
+            return redirect('/')
+        else:
+            return render_template('ideas.html',
+                                my_data = my_data)
 
 @app.route('/api/search-again', methods=['POST'])
 def search_again():
