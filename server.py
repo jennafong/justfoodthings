@@ -261,7 +261,7 @@ def search_again():
     payload = {'Authorization': f'bearer {API_KEY}'}
 
     parameters = {'term':'restaurants',
-                  'limit': 10,
+                  'limit': 25,
                   'radius': radius,
                   'location': f"{address}, {city}, {state}"}
 
@@ -270,14 +270,16 @@ def search_again():
     business_data = response.json()
     my_data = business_data['businesses']
 
+    restaurant_count = biz_count(business_data['businesses'])
+
     if request.form['search-again-button'] == 'nearby':  
         return render_template('nearby.html',
                                my_data = my_data,
                                user_location = user_location)
     elif request.form['search-again-button'] == 'random':
-        rando_num = randint(0,9)
-        # the 9 needs to not be constant. need to change it so that it reflects
-        # the upper limit of how many results we get
+        
+        rando_num = randint(0,restaurant_count - 1)
+
         return redirect(f'/api/details/{my_data[rando_num]["id"]}')
         
     elif request.form['search-again-button'] == 'ideas':
