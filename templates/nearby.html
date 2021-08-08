@@ -3,43 +3,44 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block content %}
-<div>
-    
+<div class='container nearby-restaurant-listing'>
+  <div class='row'>  
     <ul>
       {% for data in my_data %}
         {% if not data['is_closed'] %}
-            <li>
-            <p>  
-                <h2>{{ data['name'] }}</h2>
+            <li class='card col-sm-6'>
+                <h2 class='card-header'>{{ data['name'] }}</h2>
                 <p>
-                  <img class='nearby-restaurant-photo' src="{{data['image_url']}}">  
-                </p>    
-                <p>
-                  Cuisine Type(s): |{% for category in data['categories'] %}  
-                                      {{ category['title']}} |
-                                    {% endfor %}  
+                  <img class='img-fluid img-thumbnail rounded mx-auto d-block nearby-restaurant-photo' src="{{data['image_url']}}">  
                 </p>
-                <p>
-                  Price: {{ data['price']}}
-                </p>
-                <p>
-                  Phone: {{ data['display_phone']}}
-                </p>
-                <p>
-                  Address: {% for line in data['location']['display_address'] %}
-                             {{line}}
-                           {% endfor %}   
-                </p>
-                <p>
-                  Yelp Rating: {{ data['rating']}}/5 [<a href="{{data['url']}}">View Listing On Yelp</a>]
-                </p>        
-                <p>
-                  <a href="/api/details/{{data['id']}}">View Details</a>  
-                </p>    
-            </p>  
+                <div class='card-text'>    
+                  <p>
+                    Cuisine Type(s): |{% for category in data['categories'] %}  
+                                        {{ category['title']}} |
+                                      {% endfor %}  
+                  </p>
+                  <p>
+                    Price: {{ data['price']}}
+                  </p>
+                  <p>
+                    Phone: {{ data['display_phone']}}
+                  </p>
+                  <p>
+                    Address: {% for line in data['location']['display_address'] %}
+                              {{line}}
+                            {% endfor %}   
+                  </p>
+                  <p>
+                    Yelp Rating: {{ data['rating']}}/5 [<a href="{{data['url']}}">View Listing On Yelp</a>]
+                  </p>        
+                  <p>
+                    <a href="/api/details/{{data['id']}}">View Details</a>  
+                  </p>
+                </div>       
             </li>
         {% endif %}    
       {% endfor %}
     </ul>
+  </div>  
 </div>
 {% endblock %}

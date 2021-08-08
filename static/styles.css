@@ -52,6 +52,36 @@ span.tab-space {
     padding-left: 115px;
 }
 
-.nearby-restaurant-photo {
-    height: 350px
+body {
+    background-image: url('images/backgroundv2.png')
+}
+
+#location {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.form-select {
+    margin-top: 10px;
+}
+
+.personal-info {
+    padding-left: 10px;
+}
+
+.user-ratings {
+    background-color: rgb(253, 251, 250);
+    padding-left: 10px;
+}
+
+.rated-restaurant-name-table {
+    color: rgb(7, 28, 151);
+}
+
+.nearby-restaurant-listing {
+    background-color: rgb(253, 251, 250);
+}
+
+.card-text {
+    padding-left: 10px;
 }

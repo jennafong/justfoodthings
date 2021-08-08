@@ -29,27 +29,27 @@
                 </p>
                 <p>
                     <label class='form-label'>Your state?</label> <input class='form-control' type="text" name="state">
+                </p> 
+                <p>
+                    How far will you go for noms?
+                    <select name="mile_radius" class='form-select'>
+                    <option value="1">1 mile</option>
+                    <option value="5">5 miles</option>
+                    <option value="10">10 miles</option>
+                    <option value="15">15 miles</option>
+                    <option value="20">20 miles</option>
+                    </select>
                 </p>
-            </div>  
-            <p>
-                How far will you go for noms?
-                <select name="mile_radius" class='form-select'>
-                <option value="1">1 mile</option>
-                <option value="5">5 miles</option>
-                <option value="10">10 miles</option>
-                <option value="15">15 miles</option>
-                <option value="20">20 miles</option>
-                </select>
-            </p>
+            </div> 
             <div class='row'>
                 <button class='btn btn-success col-4 offset-4' type="submit" name="submit_button" value="ideas">Show Me Ideas!</button>
             </div>
             <div class='row'>
-                <span class='col gy-3'>
-                    <button class='btn btn-success offset-5' type="submit" name="submit_button" value="nearby">Search Nearby</button> 
+                <span class='col gy-3 d-grid mx-auto'>
+                    <button class='btn btn-success' type="submit" name="submit_button" value="nearby">Search Nearby</button> 
                 </span>
-                <span class='col gy-3'>    
-                    <button class='btn btn-success offset-1' type="submit" name="submit_button" value="random">Show Me A Random Place!</button> 
+                <span class='col gy-3 d-grid mx-auto'>    
+                    <button class='btn btn-success' type="submit" name="submit_button" value="random">Show Me A Random Place!</button> 
                 </span>    
             </div>    
             </form>

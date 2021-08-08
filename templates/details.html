@@ -18,29 +18,32 @@
 
 {% block content %}
 <div class='row'>
-    <div class='col-6'>
+    <div class='container col-6' id='restaurant-details-text'>
         <div class='row align-items-center' id='restaurant-details'>
             
             <h2>{{ data['name'] }}</h2>
             <div class='col'>
-                <p>
-                    <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
-                                        {{ category['title']}} |
-                                    {% endfor %}  
-                </p>
-                <p>
-                    <b>Price:</b> {{ data['price']}}
-                </p>
-                <p>
-                    <b>Phone:</b> {{ data['display_phone']}}
-                </p>    
-                <p>
-                    <b>Address:</b> {% for line in data['location']['display_address'] %}
-                                    {{ line }}
-                                    {% endfor %}   
-                </p>           
+                <div class='card'>
+                    <p>
+                        <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
+                                            {{ category['title']}} |
+                                        {% endfor %}  
+                    </p>
+                    <p>
+                        <b>Price:</b> {{ data['price']}}
+                    </p>
+                    <p>
+                        <b>Phone:</b> {{ data['display_phone']}}
+                    </p>    
+                    <p>
+                        <b>Address:</b> {% for line in data['location']['display_address'] %}
+                                        {{ line }}
+                                        {% endfor %}   
+                    </p>
+                </div>           
             </div>         
             <div class='col'>
+                <div class='card'>
                 <b>Hours:</b> 
                     {% if 'hours' in data %} 
                     <p>
@@ -55,7 +58,7 @@
                     {% else %}
                     This business does not have its hours listed on Yelp. :(
                     {% endif %}
-
+                </div>        
             </div>
         </div>
     </div>

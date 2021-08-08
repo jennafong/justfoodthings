@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<div class='personal_info'>
-   <h3>Account Details</h3>
-   <b><p>Email Address:</b> {{ email }}</p>
-   <b><p>Username:</b> {{ username }}</p>
-</div>
+  <div class='personal-info'>
+    <h3>Account Details</h3>
+    <b><p>Email Address:</b> {{ email }}</p>
+    <b><p>Username:</b> {{ username }}</p>
+  </div>
 <!-- <div class='favorites'>
     <h3> My favorite places:</h3>
     {% if favorites %}
@@ -29,10 +29,10 @@
             Nothing here yet!
     {% endif %}
 </div> -->
-<div class='ratings'>
+<div class='container user-ratings'>
     <h3> My rated places:</h3>
     {% if rated %}
-      <table>
+      <table class='table table-bordered table-striped'>
         <tr>
             <th><h4>Restaurant</h4></th>
             <th><h4>Rating</h4></th>
@@ -40,7 +40,7 @@
         </tr>
         {% for rating in rated %}
           <tr>
-            <th><a href="/api/iwenthere/{{ rating[3] }}">{{ rating[2] }}</a></th>   
+            <th><a class='rated-restaurant-name-table' href="/api/iwenthere/{{ rating[3] }}">{{ rating[2] }}</a></th>   
             <th>{{ rating[0] }}</th>
             <th>{{ rating[1] }}</th>            
           </tr>
