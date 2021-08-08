@@ -1,5 +1,6 @@
 "use strict";
 
+// distance matrix api for map centering to get an idea of how zoomed in a map should be
 
 function initMap() {
     
@@ -39,7 +40,7 @@ function initMap() {
 
     userInfo.open(basicMap, userMarker);
   
-    restaurantMarker = new google.maps.Marker({
+    const restaurantMarker = new google.maps.Marker({
       position: restaurantCoords,
       title: bizName,
       map: basicMap,

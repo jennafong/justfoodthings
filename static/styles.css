@@ -1,0 +1,57 @@
+#map {
+    height: 100%;
+}
+
+.map {
+    height: 500px;
+    width: 50%;
+}
+
+span.tab-space {
+    padding-left:1em;
+}
+
+.navbar-brand {
+    margin-left: 20px !important;
+}
+
+#login-buttons {
+    margin-right: 20px !important;
+}
+
+.container-fluid {
+    background-color: rgb(7, 1, 59);
+
+}
+
+#querying {
+    background-color: rgb(247, 240, 228);
+    margin-top: 25px;
+    padding: 20px
+}
+
+#welcome {
+    color:white;
+    padding-top: 15px;
+    padding-bottom: 15px;   
+} 
+
+.restaurant-idea-photos {
+    width: 100%;
+}
+
+#restaurant-details {
+    padding-left: 15px;
+}
+
+.details-photos {
+    width: 100%;
+}
+
+#details-photos-header {
+    padding-left: 115px;
+}
+
+.nearby-restaurant-photo {
+    height: 350px
+}

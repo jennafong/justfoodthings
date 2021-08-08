@@ -17,54 +17,61 @@
 {% endblock %}
 
 {% block content %}
-<section class="map" style="height:50%; width:50%">
-    <div id="map"></div>
-</section>
+<div class='row'>
+    <div class='col-6'>
+        <div class='row align-items-center' id='restaurant-details'>
+            
+            <h2>{{ data['name'] }}</h2>
+            <div class='col'>
+                <p>
+                    <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
+                                        {{ category['title']}} |
+                                    {% endfor %}  
+                </p>
+                <p>
+                    <b>Price:</b> {{ data['price']}}
+                </p>
+                <p>
+                    <b>Phone:</b> {{ data['display_phone']}}
+                </p>    
+                <p>
+                    <b>Address:</b> {% for line in data['location']['display_address'] %}
+                                    {{ line }}
+                                    {% endfor %}   
+                </p>           
+            </div>         
+            <div class='col'>
+                <b>Hours:</b> 
+                    {% if 'hours' in data %} 
+                    <p>
+                        Currently {% if data['hours'][0].is_open_now %} Open! 
+                        {% else %} Closed :( {% endif %}
+                    </p>
+                    <p>              
+                        {% for day, hours in day_determiner(data['hours'][0].open).items() %} 
+                            <p>{{ day }}: {{ hours }}</p>
+                        {% endfor %}        
+                    </p>     
+                    {% else %}
+                    This business does not have its hours listed on Yelp. :(
+                    {% endif %}
 
-
-<div id='restaurant_details'>
-    
-    <h2>{{ data['name'] }}</h2>
-    <p>
-        <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
-                            {{ category['title']}} |
-                          {% endfor %}  
-    </p>
-    <p>
-        <b>Price:</b> {{ data['price']}}
-    </p>
-    <p>
-        <b>Phone:</b> {{ data['display_phone']}}
-    </p>    
-    <p>
-        <b>Address:</b> {% for line in data['location']['display_address'] %}
-                          {{ line }}
-                        {% endfor %}   
-    </p>                
-    <p>
-        <b>Hours:</b> 
-            {% if 'hours' in data %} 
-            <p>
-                Currently {% if data['hours'][0].is_open_now %} Open! 
-                {% else %} Closed :( {% endif %}
-            </p>
-            <p>              
-                {% for day, hours in day_determiner(data['hours'][0].open).items() %} 
-                    <p>{{ day }}: {{ hours }}</p>
-                {% endfor %}        
-            </p>     
-            {% else %}
-            This business does not have its hours listed on Yelp. :(
-            {% endif %}
-
-    </p>
-
-    <p><b>Some Photos:</b></p>
-    {% for photo_url in data['photos'] %}
-      <img src="{{ photo_url }}">
-    {% endfor %}  
-    
+            </div>
+        </div>
+    </div>
+    <section class="col-6 map">
+        <div id="map" style='margin:10px;'></div>
+    </section>    
 </div>
+<div class='row'>
+    <p id='details-photos-header'><b>Some Photos:</b></p>
+    <div class='row justify-content-center'>
+        {% for photo_url in data['photos'] %}
+        <img class='col-md-3 details-photo' src="{{ photo_url }}">
+        {% endfor %}  
+    </div>
+</div>
+
 <div class ='action_butts'>
     <p>
     {% if current_user.is_anonymous %}

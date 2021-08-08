@@ -24,6 +24,7 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 API_KEY = YELP_KEY
 
+# possibly could use datetime library (time string format method)
 
 def military_to_standard(num):
     """Converts a number from miliary time (0000) to standard time 12:00 AM"""
@@ -246,6 +247,9 @@ def search_businesses():
 def search_again():
     """Get results from details page using sessions to store
     the originally inputted information."""
+
+    # to possiby be rid of this function - using JS to replace homepage form and show the results
+    # can move general helper logic into another file (helpers.py or api.py). 
     
     address = session.get('address', '1600 Pennsylvania Ave')
     city = session.get('city', 'Washington')

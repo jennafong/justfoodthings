@@ -3,50 +3,57 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block content %}
-<div class="container">
-    
-    <div id="welcome">
+<div class='container-fluid'>
+    <div id='welcome'>
         <h2>"Where do you want to eat?"</h2>
         <h5>"Do you have a preference????" *aggressive peer pressure*</h5>
         <h7>"I want to eat where you want to eat."</h7>
-    
+        <!--<h2>Is this you?</h2>
+        <img src='../static/images/distractedBoyfriend.jpeg'> 
+        <p><h7>It doesn't have to be! Don't let it be you.</h7></p>-->
     </div>
+</div>
 
-    <div id="querying">
+<div class='container'>
+    <div id='querying'>
         <h2>Let's find a place to eat together. No pressure. :)</h2>
-        <p>
-            <form method="POST" action='/api/search-businesses'>
+        <div class='row'>
+            <form method='POST' action='/api/search-businesses'>
         
-            <div id="location">
+            <div id='location'>
                 <p>
-                    <label>What is your address or cross street?</label> <input type="text" name="address">
+                    <label class='form-label'>What is your address or cross street?</label> <input class='form-control' type="text" name="address">
                 </p>
                 <p>  
-                    <label>Your city?</label> <input type="text" name="city">
+                    <label class='form-label'>Your city?</label> <input class='form-control' type="text" name="city">
                 </p>
                 <p>
-                    <label>Your state?</label> <input type="text" name="state">
+                    <label class='form-label'>Your state?</label> <input class='form-control' type="text" name="state">
                 </p>
             </div>  
-        <p>
-            How far will you go for noms?
-            <select name="mile_radius">
-            <option value="1">1 mile</option>
-            <option value="5">5 miles</option>
-            <option value="10">10 miles</option>
-            <option value="15">15 miles</option>
-            <option value="20">20 miles</option>
-            </select>
-        </p>
-        <p>
-            <button type="submit" name="submit_button" value="nearby">Search Nearby</button>
-        </p>
-        <p>
-            <button type="submit" name="submit_button" value="random">Show Me A Random Place!</button> 
-            <button type="submit" name="submit_button" value="ideas">Show Me Ideas!</button>
-        </p>    
-        </form>
-    </p>
+            <p>
+                How far will you go for noms?
+                <select name="mile_radius" class='form-select'>
+                <option value="1">1 mile</option>
+                <option value="5">5 miles</option>
+                <option value="10">10 miles</option>
+                <option value="15">15 miles</option>
+                <option value="20">20 miles</option>
+                </select>
+            </p>
+            <div class='row'>
+                <button class='btn btn-success col-4 offset-4' type="submit" name="submit_button" value="ideas">Show Me Ideas!</button>
+            </div>
+            <div class='row'>
+                <span class='col gy-3'>
+                    <button class='btn btn-success offset-5' type="submit" name="submit_button" value="nearby">Search Nearby</button> 
+                </span>
+                <span class='col gy-3'>    
+                    <button class='btn btn-success offset-1' type="submit" name="submit_button" value="random">Show Me A Random Place!</button> 
+                </span>    
+            </div>    
+            </form>
+        </div>
     </div>  
     
 

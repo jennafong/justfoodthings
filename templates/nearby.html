@@ -11,8 +11,8 @@
             <li>
             <p>  
                 <h2>{{ data['name'] }}</h2>
-                <p class='restaurant_image'>
-                  <img src="{{data['image_url']}}">  
+                <p>
+                  <img class='nearby-restaurant-photo' src="{{data['image_url']}}">  
                 </p>    
                 <p>
                   Cuisine Type(s): |{% for category in data['categories'] %}  

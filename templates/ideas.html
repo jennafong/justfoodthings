@@ -6,8 +6,10 @@
 
 <div id='restaurant_ideas'>
     <p> Click on a photo to learn more!</p>
-    {% for data in my_data %}
-       <a href="/api/details/{{data['id']}}"><img src="{{data['image_url']}}"></a>  
+    <div class='row gy-5'>
+    {% for data in my_data %} 
+       <a class='col-md-5' href="/api/details/{{data['id']}}"><img class='restaurant-idea-photos' src="{{data['image_url']}}"></a>  
     {% endfor %}
+    </div>
 </div>
 {% endblock %}

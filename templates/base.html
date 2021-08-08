@@ -3,32 +3,11 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
 
-  <style>
-
-    #map {
-      height: 100%;
-    }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style> 
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" 
         rel="stylesheet" 
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
         crossorigin="anonymous">
-
-  <div class='homerow'>
-    {% if current_user.is_anonymous %}
-    <a href='/loginpage'>Log In or Create Account</a> 
-    {% else %}
-    <a href='/account'>My Account</a> <a href='/logout'>Log Out</a> 
-    {% endif %}
-  </div>
-
+  <link rel="stylesheet" href="/static/styles.css">
   <script src="https://code.jquery.com/jquery-3.4.1.js"
           integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
           crossorigin="anonymous">
@@ -36,13 +15,25 @@
   {% block head %}{% endblock %}    
 </head>
 <body>
-  <div class="container-fluid d-flex header">
-    <h1>
-      <a href="/">Let's Find Good Food</a>
-    </h1>
+  <nav class='navbar navbar-dark bg-dark'>
+    
+      <h3>
+        <a class='navbar-brand' href="/">Let's Find Good Food</a>
+      </h3>
+      <div id='login-buttons' class='d-flex'>
+        {% if current_user.is_anonymous %}
+        <a class='link-light' href='/loginpage'>Log In or Create Account</a> 
+        {% else %}
+        <a class='link-light' href='/account'>My Account</a> 
+        <span class='tab-space'><a class='link-light' href='/logout'>Log Out</a></span>
+        {% endif %}
+      </div>
+    
+  </nav>
 
+  <div class="container d-flex header">
     {% for msg in get_flashed_messages() %}
-      <div class="alert alert-info">{{ msg }}</div>
+      <div class="alert alert-info offset-2">{{ msg }}</div>
     {% endfor %}
   </div>
 
