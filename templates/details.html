@@ -23,7 +23,7 @@
             
             <h2>{{ data['name'] }}</h2>
             <div class='col'>
-                <div class='card'>
+                <div class='card border-warning card-text' id='restaurant-info-card'>
                     <p>
                         <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
                                             {{ category['title']}} |
@@ -40,10 +40,21 @@
                                         {{ line }}
                                         {% endfor %}   
                     </p>
+                    <div class ='action-butt-in-card'>
+                        <p>
+                        {% if current_user.is_anonymous %}
+                            <a href='/loginpage'>Log In to Rate This Restauarant!</a> 
+                        {% else %}
+                            <form action='/api/iwenthere/{{data["id"]}}'>
+                                <button class='btn btn-success' type="submit">I went here and wish to pass judgement.</button>
+                            </form>
+                        {% endif %}
+                        </p>
+                    </div>
                 </div>           
             </div>         
             <div class='col'>
-                <div class='card'>
+                <div class='card border-warning card-text' id='restaurant-hours-card'>
                 <b>Hours:</b> 
                     {% if 'hours' in data %} 
                     <p>
@@ -68,28 +79,28 @@
 </div>
 <div class='row'>
     <p id='details-photos-header'><b>Some Photos:</b></p>
-    <div class='row justify-content-center'>
+    <div class='row'>
         {% for photo_url in data['photos'] %}
-        <img class='col-md-3 details-photo' src="{{ photo_url }}">
+        <img class='col details-photos' src="{{ photo_url }}">
         {% endfor %}  
     </div>
 </div>
 
-<div class ='action_butts'>
+<div class ='action-butts'>
     <p>
     {% if current_user.is_anonymous %}
         <a href='/loginpage'>Log In to Rate This Restauarant!</a> 
     {% else %}
         <form action='/api/iwenthere/{{data["id"]}}'>
-            <button type="submit">I went here and wish to pass judgement.</button>
+            <button class='btn btn-success' type="submit">I went here and wish to pass judgement.</button>
         </form>
     {% endif %}
     </p>
     Show me:
-    <form method ='POST' action='/api/search-again'>
-        <button type="submit" name='search-again-button' value="random">Another Random Listing</button>
-        <button type="submit" name='search-again-button' value="nearby">List of Nearby Foods</button>
-        <button type="submit" name='search-again-button' value="ideas">The Ideas</button>
+    <form action='/api/search-again'>
+        <button class='btn btn-dark' type="submit" name='search-again-button' value="random">Another Random Listing</button>
+        <button class='btn btn-dark' type="submit" name='search-again-button' value="nearby">List of Nearby Foods</button>
+        <button class='btn btn-dark' type="submit" name='search-again-button' value="ideas">The Ideas</button>
     </form>
 </div>
 {% endblock %}

@@ -37,11 +37,11 @@
     
   </nav>
 
-  <div class="container d-flex header">
+  <span>
     {% for msg in get_flashed_messages() %}
-      <div class="alert alert-info offset-2">{{ msg }}</div>
+      <span class="alert alert-info offset-2">{{ msg }}</span>
     {% endfor %}
-  </div>
+  </span>
 
   {% block content %}{% endblock %}
 </body>

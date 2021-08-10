@@ -172,15 +172,15 @@ def logout():
         flash('See you next time, space foodie!')
         return redirect('/')
 
-@app.route('/api/search-businesses', methods=['POST'])
+@app.route('/api/search-businesses')
 def search_businesses():
     """Grab a location and radius from the homepage form and return yelp results."""
     
-    if request.method == 'POST':
-        radius = request.form.get('mile_radius')
-        session["address"] = request.form.get("address")
-        session["city"] = request.form.get("city")
-        session["state"] = request.form.get("state")
+    if request.method == 'GET':
+        radius = request.args.get('mile_radius')
+        session["address"] = request.args.get("address")
+        session["city"] = request.args.get("city")
+        session["state"] = request.args.get("state")
         session["radius"] = radius
 
     address = session.get('address', '1600 Pennsylvania Ave')
@@ -218,7 +218,7 @@ def search_businesses():
     restaurant_count = biz_count(business_data['businesses'])
     
 
-    if request.form['submit_button'] == 'nearby':
+    if request.args['submit_button'] == 'nearby':
         if restaurant_count == 0:
             flash('Sorry! There are no restaurants in your vicinity. Please increase your radius or choose a different starting point.')  
             return redirect('/')
@@ -227,7 +227,7 @@ def search_businesses():
                                 my_data = my_data,
                                 user_location = user_location,
                                 user_coordinates = user_coordinates)
-    elif request.form['submit_button'] == 'random':
+    elif request.args['submit_button'] == 'random':
         if restaurant_count == 0:
             flash('Sorry! There are no restaurants in your vicinity. Please increase your radius or choose a different starting point.')  
             return redirect('/')
@@ -235,7 +235,7 @@ def search_businesses():
             rando_num = randint(0, restaurant_count - 1)
             return redirect(f'/api/details/{my_data[rando_num]["id"]}')
         
-    elif request.form['submit_button'] == 'ideas':
+    elif request.args['submit_button'] == 'ideas':
         if restaurant_count == 0:
             flash('Sorry! There are no restaurants in your vicinity. Please increase your radius or choose a different starting point.')  
             return redirect('/')
@@ -243,7 +243,7 @@ def search_businesses():
             return render_template('ideas.html',
                                 my_data = my_data)
 
-@app.route('/api/search-again', methods=['POST'])
+@app.route('/api/search-again')
 def search_again():
     """Get results from details page using sessions to store
     the originally inputted information."""
@@ -276,17 +276,17 @@ def search_again():
 
     restaurant_count = biz_count(business_data['businesses'])
 
-    if request.form['search-again-button'] == 'nearby':  
+    if request.args['search-again-button'] == 'nearby':  
         return render_template('nearby.html',
                                my_data = my_data,
                                user_location = user_location)
-    elif request.form['search-again-button'] == 'random':
+    elif request.args['search-again-button'] == 'random':
         
         rando_num = randint(0,restaurant_count - 1)
 
         return redirect(f'/api/details/{my_data[rando_num]["id"]}')
         
-    elif request.form['search-again-button'] == 'ideas':
+    elif request.args['search-again-button'] == 'ideas':
         return render_template('ideas.html',
                                my_data = my_data)
 
@@ -366,7 +366,7 @@ def rate_restaurant(id):
         user = current_user.id
         restaurant = crud.get_restaurant_id(detail_data['id'])
         crud.replace_rating(score, user, restaurant)
-        return redirect(f'/iwenthere/{id}')
+        return redirect(f'/api/iwenthere/{id}')
     else:
         restaurant = crud.create_restaurant(detail_data['name'], detail_data['id'], detail_data['url'])
 

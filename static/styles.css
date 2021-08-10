@@ -45,7 +45,11 @@ span.tab-space {
 }
 
 .details-photos {
+    object-fit: contain; /* keep aspect ratio */
     width: 100%;
+    max-height: 300px;
+    margin-bottom: 1rem;
+    padding-right: 10px;
 }
 
 #details-photos-header {
@@ -53,7 +57,7 @@ span.tab-space {
 }
 
 body {
-    background-image: url('images/backgroundv2.png')
+    background-image: url('images/backgroundv3.png')
 }
 
 #location {
@@ -84,4 +88,21 @@ body {
 
 .card-text {
     padding-left: 10px;
+}
+
+#restaurant-info-card {
+    height: 420px;
+}
+
+#restaurant-hours-card {
+    height: 420px;
+}
+
+.action-butts {
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
+
+.action-butt-in-card {
+    padding-right: 10px;
 }
