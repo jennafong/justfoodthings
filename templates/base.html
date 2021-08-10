@@ -37,12 +37,14 @@
     
   </nav>
 
-  <span>
+  <div class='alert-space'>
     {% for msg in get_flashed_messages() %}
-      <span class="alert alert-info offset-2">{{ msg }}</span>
+      <span class="alert alert-info offset-md-4 col-md-4" role='alert'>{{ msg }}</span>
     {% endfor %}
-  </span>
+  </div>
 
   {% block content %}{% endblock %}
+
+  
 </body>
 </html>

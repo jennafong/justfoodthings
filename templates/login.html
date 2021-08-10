@@ -3,39 +3,45 @@
 
 {% block content %}
  
+<div class='col-md-4 offset-4 create-account'>
+    <div class='create-account-text'>
+        <h2>Create an Account</h2>
+        <form action="/users" method="POST">
+            <p>
+              Email <input type="text" name="user_email">
+            </p>
 
-  <h2>Create an Account</h2>
-  <form action="/users" method="POST">
-    <p>
-      Email <input type="text" name="user_email">
-    </p>
+            <p>
+              Username <input type="text" name="username">
+            </p>
 
-    <p>
-      Username <input type="text" name="username">
-    </p>
+            <p>
+              Password <input type="password" name="password">
+            </p>
 
-    <p>
-      Password <input type="password" name="password">
-    </p>
+            <p>
+              <input class='btn btn-success' type="submit">
+            </p>
+        </form>
+    </div>    
+</div>
+<div class='col-md-4 offset-4 gy-4 login-column'>
+    <div class='login-column-text'>
+        <h2>Log In</h2>
+        <form action="/login" method="POST">
+            <p>
+              Email <input type="text" name="user_email">
+            </p>
 
-    <p>
-      <input type="submit">
-    </p>
-  </form>
+            <p>
+              Password <input type="password" name="password">
+            </p>
 
-  <h2>Log In</h2>
-  <form action="/login" method="POST">
-    <p>
-      Email <input type="text" name="user_email">
-    </p>
-
-    <p>
-      Password <input type="password" name="password">
-    </p>
-
-    <p>
-      <input type="submit">
-    </p>
-  </form>
+            <p>
+              <input class='btn btn-success' type="submit">
+            </p>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

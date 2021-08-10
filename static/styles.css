@@ -24,9 +24,30 @@ span.tab-space {
 
 }
 
+.create-account {
+    background-color: rgb(247, 240, 228);
+    margin-top: 15px;
+}
+
+.create-account-text {
+    padding: 10px;
+}
+
+.login-column {
+    background-color: rgb(247, 240, 228);
+    margin-top: 15px;
+}
+
+.login-column-text {
+    padding: 10px;
+}
+
 #querying {
     background-color: rgb(247, 240, 228);
     margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 150px;
+    margin-right: 150px;
     padding: 20px
 }
 
@@ -105,4 +126,23 @@ body {
 
 .action-butt-in-card {
     padding-right: 10px;
+}
+
+.alert-space {
+    position: relative;
+}
+
+.alert {
+    position: absolute;
+}
+
+.iwenthereimage {
+    object-fit: contain; /* keep aspect ratio */
+    width: 100%;
+    max-height: 300px;
+    margin-bottom: 1rem;
+}
+
+.visited-restaurant-data {
+    object-position: center;
 }

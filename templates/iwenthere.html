@@ -3,108 +3,115 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block content %}
-
-<div id='restaurant_ideas'>
-    <h2>{{ data['name'] }}</h2><span class='iwenthereimage'><img src="{{ data['image_url'] }}"></span>
-    <p>
-        <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
-                            {{ category['title']}} |
-                          {% endfor %}  
-    </p>
-    <p>
-        <b>Price:</b> {{ data['price']}}
-    </p>
-    <p>
-        <b>Phone:</b> {{ data['display_phone']}}
-    </p>    
-    <p>
-        <b>Address:</b> {% for line in data['location']['display_address'] %}
-                          {{ line }}
-                        {% endfor %}   
-    </p>
-
-    <h3>Thoughts and Feels</h3>
-    {% if current_rating %}
-        <div id='current_rating'>
-        <p><b>You find this restaurant to be:</b> {{ current_rating.score }}!</p>
-        </div>
-        <div id='re_rate'>
-            <p><button id='rate_again'>Re-rate Me?</button></p>    
-        </div>
-
-        <script>
-            "use strict";
-            const button = document.querySelector('#rate_again')
-            const reRate = document.querySelector('#re_rate')
-            const ratingButtons = '<p><div id=\'rating_form\'>' +
-                                        '<b>Re-Rate Me:</b>' +
-                                        '<form id=\'restaurant_score\' method=\'POST\' action=\'/api/rating/{{data["id"]}}\'>' +
-                                            '<button type=\'submit\' name=\'submit_button\' value=\'Excellent\'>This Place is AMAZING</button>' +
-                                            '<button type=\'submit\' name=\'submit_button\' value=\'Good\'>Pretty Good</button>' +
-                                            '<button type=\'submit\' name=\'submit_button\' value=\'Neutral\'>Not Bad, Not Good</button>' +
-                                            '<button type=\'submit\' name=\'submit_button\' value=\'Bad\'>It\'s Bad</button>' +
-                                            '<button type=\'submit\' name=\'submit_button\' value=\'Abhorrent\'>I\'ll Be In Hell When I Eat Here Again</button>' +
-                                        '</form>' +
-                                    '</div></p>';
-            button.addEventListener('click', () => {
-                reRate.innerHTML = ratingButtons;
-            
-            });
-        </script>
-        {% if comment %}
-            <div id='edit_comment'>    
-                <p><b>Comments:</b> {{ comment }}
-                <button id='edit_button'>Edit</button></p>
+<div class='row'>
+    <div class='container' id='visited-restaurant'>
+        <div class='card-group'>
+            <div class='card col col-sm-5 visited-restaurant-data'>
+                <div class='card-header'><h2>{{ data['name'] }}</h2></div>
+                <img class='iwenthereimage'src="{{ data['image_url'] }}">
+                <p>
+                    <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
+                                        {{ category['title']}} |
+                                    {% endfor %}  
+                </p>
+                <p>
+                    <b>Price:</b> {{ data['price']}}
+                </p>
+                <p>
+                    <b>Phone:</b> {{ data['display_phone']}}
+                </p>    
+                <p>
+                    <b>Address:</b> {% for line in data['location']['display_address'] %}
+                                    {{ line }}
+                                    {% endfor %}   
+                </p>
             </div>
+            <div class='col card col-sm-5 visited-restaurant-rating-stuff'>
+                <div class='card-header'><h3>Thoughts and Feels</h3></div>
+                {% if current_rating %}
+                    <div id='current_rating'>
+                    <p><b>You find this restaurant to be:</b> {{ current_rating.score }}!</p>
+                    </div>
+                    <div id='re_rate'>
+                        <p><button id='rate_again'>Re-rate Me?</button></p>    
+                    </div>
 
-            <script>
-                "use strict";
-                
-                const edit_button = document.querySelector('#edit_button')
-                const edit_div = document.querySelector('#edit_comment')
+                    <script>
+                        "use strict";
+                        const button = document.querySelector('#rate_again')
+                        const reRate = document.querySelector('#re_rate')
+                        const ratingButtons = '<p><div id=\'rating_form\'>' +
+                                                    '<b>Re-Rate Me:</b>' +
+                                                    '<form id=\'restaurant_score\' method=\'POST\' action=\'/api/rating/{{data["id"]}}\'>' +
+                                                        '<button type=\'submit\' name=\'submit_button\' value=\'Excellent\'>This Place is AMAZING</button>' +
+                                                        '<button type=\'submit\' name=\'submit_button\' value=\'Good\'>Pretty Good</button>' +
+                                                        '<button type=\'submit\' name=\'submit_button\' value=\'Neutral\'>Not Bad, Not Good</button>' +
+                                                        '<button type=\'submit\' name=\'submit_button\' value=\'Bad\'>It\'s Bad</button>' +
+                                                        '<button type=\'submit\' name=\'submit_button\' value=\'Abhorrent\'>I\'ll Be In Hell When I Eat Here Again</button>' +
+                                                    '</form>' +
+                                                '</div></p>';
+                        button.addEventListener('click', () => {
+                            reRate.innerHTML = ratingButtons;
+                        
+                        });
+                    </script>
+                    {% if comment %}
+                        <div id='edit_comment'>    
+                            <p><b>Comments:</b> {{ comment }}
+                            <button id='edit_button'>Edit</button></p>
+                        </div>
 
-                const edit_field = '<form id=\'restaurant_comments\' method=\'POST\' action=\'/edit_comment/{{data["id"]}}\'>' +
-                                        '<textarea name=\'updated_about_restaurant\'>{{ comment }}</textarea>' +
-                                        '<button type=\'submit\' name=\'comment_form\'>Submit</button>' +
-                                    '</form>';
-               
-                edit_button.addEventListener('click', () => {
-                    edit_div.innerHTML = edit_field;
-                
-                });
-            </script>
-        {% else %}
-            <div id='comment_box'>
-                <h5>Comments:</h5>
-                <p>Say something about this restaurant related to the rating you gave. :)</p>
-                <form id='restaurant_comments' method='POST' action='/comment/{{data["id"]}}'>
-                    <textarea name='about_restaurant'></textarea>
-                    <button type='submit' name='comment_form'>Submit</button>
+                        <script>
+                            "use strict";
+                            
+                            const edit_button = document.querySelector('#edit_button')
+                            const edit_div = document.querySelector('#edit_comment')
+
+                            const edit_field = '<form id=\'restaurant_comments\' method=\'POST\' action=\'/edit_comment/{{data["id"]}}\'>' +
+                                                    '<textarea name=\'updated_about_restaurant\'>{{ comment }}</textarea>' +
+                                                    '<button type=\'submit\' name=\'comment_form\'>Submit</button>' +
+                                                '</form>';
+                        
+                            edit_button.addEventListener('click', () => {
+                                edit_div.innerHTML = edit_field;
+                            
+                            });
+                        </script>
+                    {% else %}
+                        <div id='comment_box'>
+                            <h5>Comments:</h5>
+                            <p>Say something about this restaurant related to the rating you gave. :)</p>
+                            <form id='restaurant_comments' method='POST' action='/comment/{{data["id"]}}'>
+                                <textarea name='about_restaurant'></textarea>
+                                <button type='submit' name='comment_form'>Submit</button>
+                            </form>
+                        </div>        
+                    {% endif %}
+                {% else %}  
+                    <p><div id='rating_form'>
+                        <b>Rate Me:</b>
+                        <form id='restaurant_score' method='POST' action='/api/rating/{{data["id"]}}'>
+                            <button type='submit' name='submit_button' value='Excellent'>This Place is AMAZING</button>
+                            <button type='submit' name='submit_button' value='Good'>Pretty Good</button>
+                            <button type='submit' name='submit_button' value='Neutral'>Not Bad, Not Good</button>
+                            <button type='submit' name='submit_button' value='Bad'>It's Bad</button>
+                            <button type='submit' name='submit_button' value='Abhorrent'>I'll Be In Hell When I Eat Here Again</button>
+                        </form>
+                    </div></p>
+                {% endif %} 
+            
+
+                <p><b>Put me back out there, coach:</p></b>
+                <form action='/api/search-again'>
+                    <button type='submit' name='search-again-button' value='random'>Another Random Listing</button>
+                    <button type='submit' name='search-again-button' value='nearby'>List of Nearby Foods</button>
+                    <button type='submit' name='search-again-button' value='ideas'>The Ideas</button>
                 </form>
-            </div>        
-        {% endif %}
-    {% else %}  
-        <p><div id='rating_form'>
-            <b>Rate Me:</b>
-            <form id='restaurant_score' method='POST' action='/api/rating/{{data["id"]}}'>
-                <button type='submit' name='submit_button' value='Excellent'>This Place is AMAZING</button>
-                <button type='submit' name='submit_button' value='Good'>Pretty Good</button>
-                <button type='submit' name='submit_button' value='Neutral'>Not Bad, Not Good</button>
-                <button type='submit' name='submit_button' value='Bad'>It's Bad</button>
-                <button type='submit' name='submit_button' value='Abhorrent'>I'll Be In Hell When I Eat Here Again</button>
-            </form>
-        </div></p>
-    {% endif %} 
-   
-
-    <p><b>Put me back out there, coach:</p></b>
-    <form action='/api/search-again'>
-        <button type='submit' name='search-again-button' value='random'>Another Random Listing</button>
-        <button type='submit' name='search-again-button' value='nearby'>List of Nearby Foods</button>
-        <button type='submit' name='search-again-button' value='ideas'>The Ideas</button>
-    </form>
-    <form action='/'>  
-    <button type='submit' name='start_over'>Search With New Address</button>
-    </form>
+                <form action='/'>  
+                <button type='submit' name='start_over'>Search With New Address</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
