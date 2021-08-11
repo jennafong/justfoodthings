@@ -3,31 +3,36 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block content %}
-<div class='row'>
-    <div class='container' id='visited-restaurant'>
-        <div class='card-group'>
-            <div class='card col col-sm-5 visited-restaurant-data'>
-                <div class='card-header'><h2>{{ data['name'] }}</h2></div>
+<div class='container visited-restaurant'>
+    <div class='row'>
+        <div class='col'>
+            <div class='card visited-restaurant-data'>
+                <div class='card-header header'><h2 class='header-things'>{{ data['name'] }}</h2></div>
                 <img class='iwenthereimage'src="{{ data['image_url'] }}">
-                <p>
-                    <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
-                                        {{ category['title']}} |
-                                    {% endfor %}  
-                </p>
-                <p>
-                    <b>Price:</b> {{ data['price']}}
-                </p>
-                <p>
-                    <b>Phone:</b> {{ data['display_phone']}}
-                </p>    
-                <p>
-                    <b>Address:</b> {% for line in data['location']['display_address'] %}
-                                    {{ line }}
-                                    {% endfor %}   
-                </p>
+                <div class='card-text'>
+                    <p>
+                        <b>Cuisine Type(s):</b> |{% for category in data['categories'] %}  
+                                            {{ category['title']}} |
+                                        {% endfor %}  
+                    </p>
+                    <p>
+                        <b>Price:</b> {{ data['price']}}
+                    </p>
+                    <p>
+                        <b>Phone:</b> {{ data['display_phone']}}
+                    </p>    
+                    <p>
+                        <b>Address:</b> {% for line in data['location']['display_address'] %}
+                                        {{ line }}
+                                        {% endfor %}   
+                    </p>
+                </div>
             </div>
-            <div class='col card col-sm-5 visited-restaurant-rating-stuff'>
-                <div class='card-header'><h3>Thoughts and Feels</h3></div>
+        </div>
+        <div class='col'>    
+            <div class='card visited-restaurant-rating-stuff'>
+                <div class='card-header'><h3 class='header-things'>Thoughts and Feels</h3></div>
+                <div class='card-text'>
                 {% if current_rating %}
                     <div id='current_rating'>
                     <p><b>You find this restaurant to be:</b> {{ current_rating.score }}!</p>
@@ -110,6 +115,7 @@
                 <form action='/'>  
                 <button type='submit' name='start_over'>Search With New Address</button>
                 </form>
+                </div>
             </div>
         </div>
     </div>

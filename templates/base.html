@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>{% block title %}{% endblock %}</title>
+
+  <!-- Favicon Stuffs -->
   <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon_package_v0.16/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon_package_v0.16/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon_package_v0.16/favicon-16x16.png">
@@ -9,15 +11,31 @@
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
-        crossorigin="anonymous">
+  <!-- End Favicon Stuffs -->
+
+  <!-- Bootstrap Stuffs -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <!-- End Bootstrap Stuffs -->
+
+<!-- J-Query, I think -->
   <link rel="stylesheet" href="/static/styles.css">
   <script src="https://code.jquery.com/jquery-3.4.1.js"
           integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
           crossorigin="anonymous">
   </script>
+<!-- End J-Query -->
+
+<!-- Fonts -->
+  <!-- Dancing Script, cursive -->
+  <!-- Sanchez, serif -->
+  <!-- Lobster, cursive -->
+  <!-- Roboto, serif, weights: 100, 700 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lobster&family=Roboto:wght@300;700&family=Sanchez&display=swap" rel="stylesheet">
+<!-- End Fonts -->
+  
   {% block head %}{% endblock %}    
 </head>
 <body>

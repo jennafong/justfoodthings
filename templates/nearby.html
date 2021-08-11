@@ -3,13 +3,14 @@
 {% block title %}Let's Find Good Food{% endblock %}
 
 {% block content %}
-<div class='container nearby-restaurant-listing'>
-    <div class='row'>  
-        <ul>
+<div class='container nearby-restaurant-listing-container'>
+    <div class='row row-cols-1 row-cols-md-2 g-12 nearby-restaurant-listing'>  
+ 
           {% for data in my_data %}
               {% if not data['is_closed'] %}
-                 <li class='card col-sm-6'>
-                    <h2 class='card-header'>{{ data['name'] }}</h2>
+              <div class='col'>
+                <div class='card'>
+                    <h2 class='card-header header-things'>{{ data['name'] }}</h2>
                     <p>
                         <img class='img-fluid img-thumbnail rounded mx-auto d-block nearby-restaurant-photo' src="{{data['image_url']}}">  
                     </p>
@@ -37,10 +38,11 @@
                           <a href="/api/details/{{data['id']}}">View Details</a>  
                         </p>
                     </div>       
-                </li>
+                  </div>
+              </div>
              {% endif %}    
            {% endfor %}
-        </ul>
+       
     </div>  
 </div>
 {% endblock %}
