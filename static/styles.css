@@ -72,8 +72,34 @@ b {
     padding-bottom: 15px;   
 } 
 
+main {
+    display: block;
+    columns: 24rem;
+    gap: 1rem;
+    margin: 5px;
+}
+
+main figure {  
+    margin-bottom: 1rem;
+    break-inside: avoid;
+}
+
+.nearby-restaurant-listing {
+    background-color: rgb(253, 251, 250);
+    display: block;
+    columns: 24rem;
+    gap: 1rem;
+    padding-top: 5px;
+} 
+
+.nearby-restaurant-listing .card.nearby {
+    margin-bottom: 1rem;
+    break-inside: avoid;
+}
+
 .restaurant-idea-photos {
     width: 100%;
+
 }
 
 #restaurant-details {
@@ -119,10 +145,6 @@ body {
 .rated-restaurant-name-table {
     color: rgb(7, 28, 151);
 }
-
-.nearby-restaurant-listing {
-    background-color: rgb(253, 251, 250);
-} 
 
 .card-text {
     padding-left: 10px;

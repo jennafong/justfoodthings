@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class='container nearby-restaurant-listing-container'>
-    <div class='row row-cols-1 row-cols-md-2 g-12 nearby-restaurant-listing'>  
+    <div class='row nearby-restaurant-listing'>  
  
           {% for data in my_data %}
               {% if not data['is_closed'] %}
-              <div class='col'>
-                <div class='card'>
+              <div class='col style:"margin:5px;"'>
+                <div class='card nearby'>
                     <h2 class='card-header header-things'>{{ data['name'] }}</h2>
                     <p>
                         <img class='img-fluid img-thumbnail rounded mx-auto d-block nearby-restaurant-photo' src="{{data['image_url']}}">  

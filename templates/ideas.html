@@ -4,12 +4,12 @@
 
 {% block content %}
 
-<div id='restaurant_ideas'>
+<div id='restaurant-ideas'>
     <p> Click on a photo to learn more!</p>
-    <div class='row gy-5'>
+    <main>
     {% for data in my_data %} 
-       <a class='col-md-4' href="/api/details/{{data['id']}}"><img class='restaurant-idea-photos' src="{{data['image_url']}}"></a>  
+        <figure><a href="/api/details/{{data['id']}}"><img class='restaurant-idea-photos' src="{{data['image_url']}}"></a></figure>  
     {% endfor %}
-    </div>
+    </main>
 </div>
 {% endblock %}
