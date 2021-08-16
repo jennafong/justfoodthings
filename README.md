@@ -7,7 +7,7 @@ Ways in which a user can view restaurants:
 2. **Nearby** - Shows a user photos with names/descriptions of nearby restaurants.
 3. **Random/Details** - Shows user a details page of a singular listing complete with hours and Google map.
 4. **Rating** - Shows a user a place to rate and comment on a restaurant (login required).
-5. **Login/Logout** - Allows a user to log in and log out of the webapp.
+5. **Login/Logout** - Allows a user to create a login and furthermore log in and log out of the webapp.
 6. **Account** - Shows user their username and email. Shows user their rated restaurants with the rating and comment. 
 
 ## Tech Stack
